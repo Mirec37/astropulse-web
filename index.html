@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="sk" data-lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astropulse – Objavte nočnú oblohu</title>
+    <meta name="description" content="Astropulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a audio rozprávanie. Offline, zadarmo, bez reklám.">
+    <meta name="theme-color" content="#020205">
+
+    <!-- Náhľad pri zdieľaní (Facebook, Messenger, WhatsApp…) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Astropulse – Objavte nočnú oblohu">
+    <meta property="og:description" content="Interaktívny 3D atlas nočnej oblohy pre Android. Offline, zadarmo, bez reklám.">
+    <!-- Keď budeš mať obrázok 1200×630 px, odkomentuj a doplň plnú adresu: -->
+    <!-- <meta property="og:image" content="https://TVOJA-DOMENA/og-image.png"> -->
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%2300F2FE'%3E✦%3C/text%3E%3C/svg%3E">
+
+    <style>
+        body {
+            background-color: #020205;
+            color: #f3f4f6;
+            font-family: system-ui, -apple-system, sans-serif;
+            overflow-x: hidden;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        /* Jazyky: prepína sa jedným atribútom na <html> */
+        html[data-lang="sk"] .lang-en,
+        html[data-lang="en"] .lang-sk { display: none !important; }
+
+        header, footer, .main-container, .features-grid {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+
+        header {
+            padding: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-text {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #22d3ee;
+        }
+
+        .badge {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            background-color: rgba(8, 47, 73, 0.6);
+            border: 1px solid rgba(21, 94, 117, 0.5);
+            color: #67e8f9;
+            white-space: nowrap;
+        }
+
+        .main-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 48px 24px;
+        }
+
+        .pill {
+            margin-bottom: 16px;
+            padding: 6px 16px;
+            border-radius: 9999px;
+            background-color: rgba(8, 47, 73, 0.8);
+            border: 1px solid rgba(21, 94, 117, 0.4);
+            color: #67e8f9;
+            font-size: 14px;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: clamp(32px, 7vw, 48px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-top: 0;
+            margin-bottom: 24px;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            color: #00F2FE;
+            text-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+        }
+
+        .hero-p {
+            font-size: clamp(16px, 2.5vw, 18px);
+            color: #d1d5db;
+            line-height: 1.6;
+            margin: 0 auto 32px auto;
+            max-width: 650px;
+        }
+
+        .action-button {
+            display: inline-block;
+            background-color: #00F2FE;
+            color: #020205;
+            font-size: 15px;
+            font-weight: bold;
+            padding: 14px 28px;
+            border-radius: 9999px;
+            text-decoration: none;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            margin-bottom: 12px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+        .action-button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(0, 242, 254, 0.6);
+        }
+        .action-note {
+            font-size: 13px;
+            color: #6b7280;
+            margin: 0 0 40px 0;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid #00F2FE;
+            outline-offset: 3px;
+        }
+
+        .badges-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .check-badge {
+            display: flex;
+            align-items: center;
+            background-color: rgba(17, 24, 39, 0.8);
+            border: 1px solid #1f2937;
+            padding: 10px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #9ca3af;
+        }
+        .check-mark { color: #00F2FE; margin-right: 8px; }
+
+        .features-grid {
+            padding: 0 24px 64px 24px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        @media (min-width: 768px) {
+            .features-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .card {
+            background-color: rgba(3, 7, 18, 0.6);
+            border: 1px solid rgba(31, 41, 55, 0.8);
+            padding: 24px;
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            transition: border-color 0.3s;
+        }
+        .card:hover { border-color: rgba(0, 242, 254, 0.4); }
+
+        .card-icon { font-size: 24px; margin-bottom: 12px; }
+        .card-h3 { font-size: 18px; font-weight: 600; margin: 0 0 8px 0; color: #67e8f9; }
+        .card-p { color: #9ca3af; font-size: 14px; line-height: 1.6; margin: 0; }
+
+        .story {
+            max-width: 750px;
+            margin: 0 auto 80px auto;
+            padding: 0 24px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+        .story h2 { color: #00F2FE; font-size: 22px; font-weight: 700; margin: 0 0 12px 0; }
+        .story p { color: #9ca3af; font-size: 15px; line-height: 1.7; margin: 0; }
+
+        .lang-switch {
+            font-size: 12px;
+            letter-spacing: 1px;
+            background-color: rgba(17, 24, 39, 0.6);
+            border: 1px solid #1f2937;
+            border-radius: 8px;
+            padding: 4px;
+            display: flex;
+            gap: 4px;
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .lang-btn[aria-pressed="true"] { background-color: #082f49; color: #22d3ee; }
+
+        footer {
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 14px;
+            color: #6b7280;
+            border-top: 1px solid rgba(17, 24, 39, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+        }
+        @media (min-width: 640px) {
+            footer { flex-direction: row; justify-content: space-between; }
+        }
+        footer a { color: #6b7280; text-decoration: none; transition: color 0.2s; }
+        footer a:hover { color: #00F2FE; }
+
+        /* Hviezdne pozadie */
+        #space-canvas {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .star {
+            position: absolute; background: #ffffff; border-radius: 50%;
+            animation: twinkle var(--duration) infinite ease-in-out;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.2; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .nebula {
+            position: fixed; top: 20%; left: 50%; transform: translateX(-50%);
+            width: min(700px, 100vw); height: 500px;
+            background: radial-gradient(circle, rgba(34, 211, 238, 0.07) 0%, rgba(147, 51, 234, 0.05) 50%, transparent 70%);
+            filter: blur(80px); pointer-events: none; z-index: 0;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .star { animation: none; opacity: 0.6; }
+            .action-button, .card, .lang-btn { transition: none; }
+            .action-button:hover { transform: none; }
+        }
+
+        @media (max-width: 420px) {
+            header { padding: 16px; }
+            .badge { display: none; }
+        }
+    </style>
+
+    <script>
+        // Nastaví jazyk ešte pred vykreslením stránky (bez blikania)
+        (function () {
+            var lang = 'sk';
+            try {
+                var saved = localStorage.getItem('astropulse-lang');
+                if (saved === 'sk' || saved === 'en') {
+                    lang = saved;
+                } else {
+                    var nav = (navigator.language || 'sk').toLowerCase();
+                    lang = (nav.indexOf('sk') === 0 || nav.indexOf('cs') === 0) ? 'sk' : 'en';
+                }
+            } catch (e) {}
+            document.documentElement.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+        })();
+    </script>
+</head>
+<body>
+
+    <div id="space-canvas" aria-hidden="true"></div>
+    <div class="nebula" aria-hidden="true"></div>
+
+    <header>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 24px; color: #00F2FE;" aria-hidden="true">✦</span>
+            <span class="logo-text">Astropulse</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 16px;">
+            <div class="lang-switch" role="group" aria-label="Jazyk / Language">
+                <button id="btn-sk" onclick="switchLang('sk')" class="lang-btn" aria-pressed="true">SK</button>
+                <button id="btn-en" onclick="switchLang('en')" class="lang-btn" aria-pressed="false">EN</button>
+            </div>
+            <span class="badge lang-sk">Pripravujeme</span>
+            <span class="badge lang-en">Coming soon</span>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div style="width: 100%;">
+            <div class="lang-sk">
+                <div class="pill">Interaktívny 3D atlas oblohy pre Android</div>
+                <h1>Objavte nočnú<br><span class="gradient-text">oblohu nad vami</span></h1>
+                <p class="hero-p">Namierte mobil na oblohu a zistite, čo práve vidíte. Spoznajte všetkých 88 súhvezdí a planéty Slnečnej sústavy cez overenú vedu, audio rozprávanie a mýty, ktoré ľudia o hviezdach rozprávajú už tisíce rokov.</p>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=Astropulse%20%E2%80%93%20dajte%20mi%20vedie%C5%A5%20o%20spusten%C3%AD">Dajte mi vedieť o spustení</a>
+                <p class="action-note">Už čoskoro v Google Play</p>
+            </div>
+
+            <div class="lang-en">
+                <div class="pill">An interactive 3D sky atlas for Android</div>
+                <h1>Discover the night sky<br><span class="gradient-text">above you</span></h1>
+                <p class="hero-p">Point your phone at the sky and find out what you're looking at. Explore all 88 constellations and the planets of our Solar System through verified science, audio narration, and myths people have told about the stars for thousands of years.</p>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=Astropulse%20%E2%80%93%20notify%20me%20at%20launch">Notify me at launch</a>
+                <p class="action-note">Coming soon to Google Play</p>
+            </div>
+
+            <div class="badges-wrapper">
+                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Plne offline</span><span class="lang-en">Fully offline</span></div>
+                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Úplne zadarmo</span><span class="lang-en">Completely free</span></div>
+                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Bez reklám</span><span class="lang-en">No ads</span></div>
+            </div>
+        </div>
+    </main>
+
+    <section class="features-grid">
+        <div class="card lang-sk">
+            <div class="card-icon" aria-hidden="true">🌌</div>
+            <h3 class="card-h3">Interaktívny 3D atlas</h3>
+            <p class="card-p">Plynule otáčajte a približujte celú nebeskú sféru. Pri priblížení sa značky objektov menia na skutočné fotografie hviezdokôp a galaxií.</p>
+        </div>
+        <div class="card lang-en">
+            <div class="card-icon" aria-hidden="true">🌌</div>
+            <h3 class="card-h3">Interactive 3D atlas</h3>
+            <p class="card-p">Smoothly rotate and zoom the whole celestial sphere. As you zoom in, object markers turn into real photos of star clusters and galaxies.</p>
+        </div>
+
+        <div class="card lang-sk">
+            <div class="card-icon" aria-hidden="true">🔊</div>
+            <h3 class="card-h3">Vesmírne príbehy</h3>
+            <p class="card-p">Zavrite oči a počúvajte. Audio rozprávanie vám priamo do slúchadiel porozpráva mýty o hviezdach aj to, čo o nich vie dnešná astrofyzika.</p>
+        </div>
+        <div class="card lang-en">
+            <div class="card-icon" aria-hidden="true">🔊</div>
+            <h3 class="card-h3">Stories of the sky</h3>
+            <p class="card-p">Close your eyes and listen. Audio narration tells you the myths behind the stars and what modern astrophysics knows about them.</p>
+        </div>
+
+        <div class="card lang-sk">
+            <div class="card-icon" aria-hidden="true">🛡️</div>
+            <h3 class="card-h3">Bez registrácie, bez zberu dát</h3>
+            <p class="card-p">Žiadne vyskakovacie okná, žiadne registrácie, žiadny zber údajov. Poloha a kompas sa používajú len vo vašom mobile. Čistá vzdelávacia pomôcka do terénu aj do školy.</p>
+        </div>
+        <div class="card lang-en">
+            <div class="card-icon" aria-hidden="true">🛡️</div>
+            <h3 class="card-h3">No sign-up, no data collection</h3>
+            <p class="card-p">No pop-ups, no accounts, no data collection. Location and compass stay on your phone. A clean learning tool for stargazing and the classroom.</p>
+        </div>
+    </section>
+
+    <section class="story">
+        <div class="lang-sk">
+            <h2>Príbeh za projektom</h2>
+            <p>Celý tento projekt vznikol z jedného prostého, no silného momentu. Vždy, keď som sa pozeral na nočnú oblohu, ma fascinovala jej hĺbka. Zároveň ma však trápilo, že tie hviezdy a súhvezdia nad sebou nedokážem pomenovať a bližšie spoznať. Chcel som skrátka vyjsť v noci von a presne vedieť, čo mi v tej sekunde svieti nad hlavou. Z tejto túžby po poznaní nakoniec po nociach plných programovania vznikol Astropulse – 3D atlas oblohy postavený na overenej vede a audio rozprávaní, ktorý má slúžiť verejnosti, astronomickým komunitám aj školám ako otvorená vzdelávacia pomôcka.</p>
+        </div>
+        <div class="lang-en">
+            <h2>The story behind Astropulse</h2>
+            <p>This project started with one simple moment. Whenever I looked up at the night sky, I was fascinated by its depth. But it always bothered me that I couldn't name the stars and constellations shining above me. I just wanted to step outside at night and know exactly what I was looking at. That wish kept me coding through many long nights, and it grew into Astropulse – a 3D sky atlas built on verified science and audio narration, made for stargazers, astronomy clubs, and schools as an open learning tool.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div>
+            <span class="lang-sk">© 2026 Astropulse. Všetky práva vyhradené.</span>
+            <span class="lang-en">© 2026 Astropulse. All rights reserved.</span>
+            <br>
+            <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>
+        </div>
+        <div>
+            <a href="privacy.html" class="lang-sk">Zásady ochrany osobných údajov</a>
+            <a href="privacy.html" class="lang-en">Privacy policy</a>
+        </div>
+    </footer>
+
+    <script>
+        // Hviezdy v pozadí (pri obmedzenom pohybe menej a bez animácie – rieši CSS)
+        const canvas = document.getElementById('space-canvas');
+        const starCount = window.innerWidth < 640 ? 70 : 120;
+
+        for (let i = 0; i < starCount; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 2 + 1;
+            star.style.left = (Math.random() * 100) + '%';
+            star.style.top = (Math.random() * 100) + '%';
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            if (i % 5 === 0) star.style.background = '#00F2FE';
+            else if (i % 8 === 0) star.style.background = '#fde047';
+            canvas.appendChild(star);
+        }
+
+        const titles = {
+            sk: 'Astropulse – Objavte nočnú oblohu',
+            en: 'Astropulse – Discover the Night Sky'
+        };
+
+        function switchLang(lang) {
+            document.documentElement.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+            document.title = titles[lang];
+            document.getElementById('btn-sk').setAttribute('aria-pressed', lang === 'sk');
+            document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+            try { localStorage.setItem('astropulse-lang', lang); } catch (e) {}
+        }
+
+        switchLang(document.documentElement.getAttribute('data-lang'));
+    </script>
+</body>
+</html>

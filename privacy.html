@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="sk" data-lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astropulse – Zásady ochrany osobných údajov / Privacy Policy</title>
+    <meta name="description" content="Zásady ochrany osobných údajov aplikácie Astropulse. Privacy policy of the Astropulse app.">
+    <meta name="theme-color" content="#020205">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%2300F2FE'%3E✦%3C/text%3E%3C/svg%3E">
+    <style>
+        body {
+            background-color: #020205;
+            color: #d1d5db;
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            line-height: 1.7;
+        }
+        html[data-lang="sk"] .lang-en,
+        html[data-lang="en"] .lang-sk { display: none !important; }
+
+        .wrap { max-width: 720px; margin: 0 auto; padding: 32px 24px 64px; }
+        header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .home { color: #22d3ee; text-decoration: none; font-weight: bold; letter-spacing: 1px; font-size: 18px; }
+        .home span { color: #00F2FE; margin-right: 6px; }
+
+        .lang-switch {
+            font-size: 12px; background-color: rgba(17, 24, 39, 0.6);
+            border: 1px solid #1f2937; border-radius: 8px; padding: 4px; display: flex; gap: 4px;
+        }
+        .lang-btn {
+            background: none; border: none; color: #9ca3af; padding: 4px 8px;
+            border-radius: 4px; cursor: pointer; font-weight: bold; letter-spacing: 1px;
+        }
+        .lang-btn[aria-pressed="true"] { background-color: #082f49; color: #22d3ee; }
+
+        h1 { color: #f3f4f6; font-size: clamp(26px, 5vw, 34px); line-height: 1.2; margin: 0 0 8px; }
+        .updated { color: #6b7280; font-size: 14px; margin: 0 0 32px; }
+        h2 { color: #67e8f9; font-size: 18px; margin: 32px 0 8px; }
+        p, li { font-size: 15px; }
+        ul { padding-left: 20px; }
+        a { color: #22d3ee; }
+        a:focus-visible, button:focus-visible { outline: 2px solid #00F2FE; outline-offset: 3px; }
+        footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid #111827; font-size: 14px; color: #6b7280; }
+    </style>
+    <script>
+        (function () {
+            var lang = 'sk';
+            try {
+                var saved = localStorage.getItem('astropulse-lang');
+                if (saved === 'sk' || saved === 'en') lang = saved;
+                else {
+                    var nav = (navigator.language || 'sk').toLowerCase();
+                    lang = (nav.indexOf('sk') === 0 || nav.indexOf('cs') === 0) ? 'sk' : 'en';
+                }
+            } catch (e) {}
+            document.documentElement.setAttribute('data-lang', lang);
+            document.documentElement.lang = lang;
+        })();
+    </script>
+</head>
+<body>
+<div class="wrap">
+    <header>
+        <a class="home" href="index.html"><span aria-hidden="true">✦</span>Astropulse</a>
+        <div class="lang-switch" role="group" aria-label="Jazyk / Language">
+            <button id="btn-sk" onclick="switchLang('sk')" class="lang-btn" aria-pressed="true">SK</button>
+            <button id="btn-en" onclick="switchLang('en')" class="lang-btn" aria-pressed="false">EN</button>
+        </div>
+    </header>
+
+    <!-- ===================== SLOVENSKY ===================== -->
+    <main class="lang-sk">
+        <h1>Zásady ochrany osobných údajov</h1>
+        <p class="updated">Platné od: 23. septembra 2026</p>
+
+        <p>Tieto zásady popisujú, ako mobilná aplikácia Astropulse pre Android (ďalej „aplikácia“) zaobchádza s vašimi údajmi. Stručne: aplikácia nezhromažďuje, neukladá na žiadny server, neodosiela ani nezdieľa žiadne osobné údaje.</p>
+
+        <h2>Údaje, ktoré aplikácia nezhromažďuje</h2>
+        <p>Aplikácia nevyžaduje registráciu ani prihlásenie, neobsahuje reklamy ani analytické či sledovacie nástroje. Nezbiera mená, e-mailové adresy, identifikátory zariadenia ani štatistiky o tom, ako aplikáciu používate.</p>
+
+        <h2>Poloha</h2>
+        <p>Aby aplikácia vedela zobraziť oblohu tak, ako ju vidíte z miesta, kde sa práve nachádzate, požiada o povolenie na prístup k polohe zariadenia. Poloha sa používa výhradne na výpočet polohy hviezd, planét a ďalších objektov na oblohe. Spracúva sa iba lokálne vo vašom zariadení, nikam sa neodosiela, nezdieľa sa s tretími stranami a aplikácia si neuchováva jej históriu.</p>
+        <p>Povolenie môžete kedykoľvek odmietnuť alebo odobrať v nastaveniach systému Android. Aplikácia potom môže fungovať s obmedzenou presnosťou zobrazenia oblohy.</p>
+
+        <h2>Kompas a pohybové senzory</h2>
+        <p>Aplikácia používa kompas (magnetometer) a pohybové senzory zariadenia (napr. akcelerometer, gyroskop), aby sa zobrazenie oblohy otáčalo podľa toho, kam mierite telefónom. Údaje zo senzorov sa spracúvajú len v reálnom čase vo vašom zariadení, neukladajú sa a nikam sa neodosielajú.</p>
+
+        <h2>Údaje uložené v zariadení</h2>
+        <p>Aplikácia si môže vo vašom zariadení uchovávať nastavenia (napríklad zvolený jazyk alebo režim zobrazenia). Tieto údaje zostávajú len vo vašom telefóne a odstránia sa spolu s odinštalovaním aplikácie.</p>
+
+        <h2>Deti</h2>
+        <p>Aplikácia je vhodná aj pre školy a mladších používateľov. Keďže nezhromažďuje žiadne osobné údaje od nikoho, nezhromažďuje ich ani od detí.</p>
+
+        <h2>Google Play</h2>
+        <p>Aplikáciu distribuuje obchod Google Play. Údaje spojené so stiahnutím a inštaláciou (napr. váš účet Google) spracúva spoločnosť Google podľa vlastných zásad ochrany súkromia, na ktoré nemáme vplyv.</p>
+
+        <h2>Kontakt</h2>
+        <p>Ak nám napíšete e-mail, vašu adresu a správu použijeme len na odpoveď. Otázky k týmto zásadám posielajte na <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Zmeny zásad</h2>
+        <p>Ak sa tieto zásady zmenia, aktualizovanú verziu zverejníme na tejto stránke spolu s novým dátumom platnosti.</p>
+    </main>
+
+    <!-- ===================== ENGLISH ===================== -->
+    <main class="lang-en">
+        <h1>Privacy policy</h1>
+        <p class="updated">Effective: September 23, 2026</p>
+
+        <p>This policy explains how the Astropulse mobile app for Android (“the app”) handles your data. In short: the app does not collect, upload to any server, transmit, or share any personal data.</p>
+
+        <h2>Data the app does not collect</h2>
+        <p>The app requires no registration or sign-in and contains no ads, analytics, or tracking tools. It does not collect names, email addresses, device identifiers, or statistics about how you use it.</p>
+
+        <h2>Location</h2>
+        <p>To show the sky as it looks from where you are, the app asks for permission to access your device's location. Location is used only to calculate the positions of stars, planets, and other sky objects. It is processed only on your device, is never sent anywhere or shared with third parties, and the app does not keep a location history.</p>
+        <p>You can deny or revoke this permission at any time in Android settings. The app may then show the sky with reduced accuracy.</p>
+
+        <h2>Compass and motion sensors</h2>
+        <p>The app uses your device's compass (magnetometer) and motion sensors (such as the accelerometer and gyroscope) so the sky view follows where you point your phone. Sensor data is processed in real time on your device only; it is not stored or transmitted.</p>
+
+        <h2>Data stored on your device</h2>
+        <p>The app may store settings on your device (for example your chosen language or display mode). This data stays on your phone and is removed when you uninstall the app.</p>
+
+        <h2>Children</h2>
+        <p>The app is suitable for schools and younger users. Because it collects no personal data from anyone, it collects none from children.</p>
+
+        <h2>Google Play</h2>
+        <p>The app is distributed through Google Play. Data related to downloading and installing it (such as your Google account) is handled by Google under its own privacy policy, which we do not control.</p>
+
+        <h2>Contact</h2>
+        <p>If you email us, we use your address and message only to reply. Send questions about this policy to <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Changes</h2>
+        <p>If this policy changes, we will publish the updated version on this page with a new effective date.</p>
+    </main>
+
+    <footer>
+        <span class="lang-sk">© 2026 Astropulse · <a href="index.html">Späť na hlavnú stránku</a></span>
+        <span class="lang-en">© 2026 Astropulse · <a href="index.html">Back to home</a></span>
+    </footer>
+</div>
+
+<script>
+    const titles = {
+        sk: 'Astropulse – Zásady ochrany osobných údajov',
+        en: 'Astropulse – Privacy Policy'
+    };
+    function switchLang(lang) {
+        document.documentElement.setAttribute('data-lang', lang);
+        document.documentElement.lang = lang;
+        document.title = titles[lang];
+        document.getElementById('btn-sk').setAttribute('aria-pressed', lang === 'sk');
+        document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+        try { localStorage.setItem('astropulse-lang', lang); } catch (e) {}
+    }
+    switchLang(document.documentElement.getAttribute('data-lang'));
+</script>
+</body>
+</html>
