@@ -4,15 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Astropulse – Objavte nočnú oblohu</title>
-    <meta name="description" content="Astropulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a audio rozprávanie. Offline, zadarmo, bez reklám.">
+    <meta name="description" content="Astropulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a príbehy hviezd, ktoré vám aplikácia prečíta nahlas. Offline, zadarmo, bez reklám.">
     <meta name="theme-color" content="#020205">
 
     <!-- Náhľad pri zdieľaní (Facebook, Messenger, WhatsApp…) -->
+    <link rel="canonical" href="https://www.getastropulse.com/">
     <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.getastropulse.com/">
     <meta property="og:title" content="Astropulse – Objavte nočnú oblohu">
     <meta property="og:description" content="Interaktívny 3D atlas nočnej oblohy pre Android. Offline, zadarmo, bez reklám.">
     <!-- Keď budeš mať obrázok 1200×630 px, odkomentuj a doplň plnú adresu: -->
-    <!-- <meta property="og:image" content="https://TVOJA-DOMENA/og-image.png"> -->
+    <!-- <meta property="og:image" content="https://www.getastropulse.com/og-image.png"> -->
 
     <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%2300F2FE'%3E✦%3C/text%3E%3C/svg%3E">
 
@@ -188,6 +190,8 @@
         .card-p { color: #9ca3af; font-size: 14px; line-height: 1.6; margin: 0; }
 
         .story {
+            width: 100%;
+            box-sizing: border-box;
             max-width: 750px;
             margin: 0 auto 80px auto;
             padding: 0 24px;
@@ -196,7 +200,56 @@
             z-index: 10;
         }
         .story h2 { color: #00F2FE; font-size: 22px; font-weight: 700; margin: 0 0 12px 0; }
-        .story p { color: #9ca3af; font-size: 15px; line-height: 1.7; margin: 0; }
+        .story p { color: #9ca3af; font-size: 15px; line-height: 1.7; margin: 0; text-align: left; }
+        .story p + p { margin-top: 16px; }
+        .story a { color: #22d3ee; }
+
+        /* Zoznam funkcií */
+        .feature-list {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto 72px auto;
+            padding: 0 24px;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 10;
+        }
+        .section-h2 {
+            color: #f3f4f6; font-size: 24px; font-weight: 700;
+            margin: 0 0 24px 0; text-align: center;
+        }
+        .feature-list ul {
+            list-style: none; margin: 0; padding: 0;
+            display: grid; grid-template-columns: 1fr; gap: 20px 40px;
+        }
+        @media (min-width: 640px) { .feature-list ul { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 960px) { .feature-list ul { grid-template-columns: repeat(3, 1fr); } }
+        .feature-list li {
+            padding-left: 28px; position: relative;
+        }
+        .feature-list li::before {
+            content: "✦"; position: absolute; left: 0; top: 1px;
+            color: #00F2FE; font-size: 15px;
+        }
+        .feature-list strong { display: block; color: #67e8f9; font-size: 16px; margin-bottom: 2px; }
+        .feature-list span.desc { color: #9ca3af; font-size: 14px; line-height: 1.5; }
+
+        /* Screenshoty – sekcia sa zobrazí, až keď existuje aspoň jeden obrázok */
+        .shots {
+            width: 100%; max-width: 1100px; margin: 0 auto 72px auto; padding: 0 24px;
+            box-sizing: border-box; position: relative; z-index: 10;
+        }
+        .shots-row {
+            display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px;
+            scroll-snap-type: x mandatory; justify-content: safe center;
+        }
+        .shots figure { margin: 0; flex: 0 0 auto; scroll-snap-align: center; }
+        .shots img {
+            display: block; height: 440px; width: auto; max-width: 80vw; object-fit: contain;
+            border-radius: 20px; border: 1px solid #1f2937;
+            background: #030712;
+        }
+        @media (max-width: 640px) { .shots img { height: 380px; } }
 
         .lang-switch {
             font-size: 12px;
@@ -273,6 +326,9 @@
     </style>
 
     <script>
+        function showShots() { var el = document.getElementById('shots'); if (el) el.hidden = false; }
+    </script>
+    <script>
         // Nastaví jazyk ešte pred vykreslením stránky (bez blikania)
         (function () {
             var lang = 'sk';
@@ -315,7 +371,7 @@
             <div class="lang-sk">
                 <div class="pill">Interaktívny 3D atlas oblohy pre Android</div>
                 <h1>Objavte nočnú<br><span class="gradient-text">oblohu nad vami</span></h1>
-                <p class="hero-p">Namierte mobil na oblohu a zistite, čo práve vidíte. Spoznajte všetkých 88 súhvezdí a planéty Slnečnej sústavy cez overenú vedu, audio rozprávanie a mýty, ktoré ľudia o hviezdach rozprávajú už tisíce rokov.</p>
+                <p class="hero-p">Namierte mobil na oblohu a zistite, čo práve vidíte. Spoznajte všetkých 88 súhvezdí a planéty Slnečnej sústavy, overené vedecké údaje aj mýty, ktoré ľudia o hviezdach rozprávajú už tisíce rokov. Príbehy vám aplikácia vie prečítať nahlas.</p>
                 <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=Astropulse%20%E2%80%93%20dajte%20mi%20vedie%C5%A5%20o%20spusten%C3%AD">Dajte mi vedieť o spustení</a>
                 <p class="action-note">Už čoskoro v Google Play</p>
             </div>
@@ -323,7 +379,7 @@
             <div class="lang-en">
                 <div class="pill">An interactive 3D sky atlas for Android</div>
                 <h1>Discover the night sky<br><span class="gradient-text">above you</span></h1>
-                <p class="hero-p">Point your phone at the sky and find out what you're looking at. Explore all 88 constellations and the planets of our Solar System through verified science, audio narration, and myths people have told about the stars for thousands of years.</p>
+                <p class="hero-p">Point your phone at the sky and find out what you're looking at. Explore all 88 constellations and the planets of our Solar System, with verified science and the myths people have told about the stars for thousands of years. The app can read the stories aloud to you.</p>
                 <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=Astropulse%20%E2%80%93%20notify%20me%20at%20launch">Notify me at launch</a>
                 <p class="action-note">Coming soon to Google Play</p>
             </div>
@@ -340,52 +396,86 @@
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🌌</div>
             <h3 class="card-h3">Interaktívny 3D atlas</h3>
-            <p class="card-p">Plynule otáčajte a približujte celú nebeskú sféru. Pri priblížení sa značky objektov menia na skutočné fotografie hviezdokôp a galaxií.</p>
+            <p class="card-p">Plynule otáčajte a približujte celú nebeskú sféru. Pri priblížení uvidíte hviezdokopy, hmloviny a galaxie na ich miestach na oblohe.</p>
         </div>
         <div class="card lang-en">
             <div class="card-icon" aria-hidden="true">🌌</div>
             <h3 class="card-h3">Interactive 3D atlas</h3>
-            <p class="card-p">Smoothly rotate and zoom the whole celestial sphere. As you zoom in, object markers turn into real photos of star clusters and galaxies.</p>
+            <p class="card-p">Smoothly rotate and zoom the whole celestial sphere. Zoom in to find star clusters, nebulae, and galaxies in their places in the sky.</p>
         </div>
 
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🔊</div>
-            <h3 class="card-h3">Vesmírne príbehy</h3>
-            <p class="card-p">Zavrite oči a počúvajte. Audio rozprávanie vám priamo do slúchadiel porozpráva mýty o hviezdach aj to, čo o nich vie dnešná astrofyzika.</p>
+            <h3 class="card-h3">Príbehy hviezd</h3>
+            <p class="card-p">Príbehy hviezd a súhvezdí, mýty aj to, čo o nich vie dnešná astronómia. Aplikácia vám ich vie prečítať nahlas.</p>
         </div>
         <div class="card lang-en">
             <div class="card-icon" aria-hidden="true">🔊</div>
             <h3 class="card-h3">Stories of the sky</h3>
-            <p class="card-p">Close your eyes and listen. Audio narration tells you the myths behind the stars and what modern astrophysics knows about them.</p>
+            <p class="card-p">Stories of the stars and constellations: the myths and what modern astronomy knows about them. The app can read them aloud to you.</p>
         </div>
 
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🛡️</div>
             <h3 class="card-h3">Bez registrácie, bez zberu dát</h3>
-            <p class="card-p">Žiadne vyskakovacie okná, žiadne registrácie, žiadny zber údajov. Poloha a kompas sa používajú len vo vašom mobile. Čistá vzdelávacia pomôcka do terénu aj do školy.</p>
+            <p class="card-p">Žiadne vyskakovacie okná, žiadne registrácie, žiadny zber údajov. Poloha a kompas sa používajú len vo vašom mobile.</p>
         </div>
         <div class="card lang-en">
             <div class="card-icon" aria-hidden="true">🛡️</div>
             <h3 class="card-h3">No sign-up, no data collection</h3>
-            <p class="card-p">No pop-ups, no accounts, no data collection. Location and compass stay on your phone. A clean learning tool for stargazing and the classroom.</p>
+            <p class="card-p">No pop-ups, no accounts, no data collection. Location and compass stay on your phone.</p>
+        </div>
+    </section>
+
+    <section class="feature-list" aria-labelledby="fl-h">
+        <h2 class="section-h2" id="fl-h"><span class="lang-sk">Čo v aplikácii nájdete</span><span class="lang-en">What's inside</span></h2>
+        <ul>
+            <li><strong><span class="lang-sk">Kalendár Mesiaca</span><span class="lang-en">Moon calendar</span></strong>
+                <span class="desc lang-sk">Fázy Mesiaca deň po dni.</span><span class="desc lang-en">Moon phases day by day.</span></li>
+            <li><strong><span class="lang-sk">Viditeľné teraz</span><span class="lang-en">Visible now</span></strong>
+                <span class="desc lang-sk">Čo je práve nad obzorom tam, kde stojíte.</span><span class="desc lang-en">What's above the horizon where you are right now.</span></li>
+            <li><strong><span class="lang-sk">Cestovanie v čase</span><span class="lang-en">Time travel</span></strong>
+                <span class="desc lang-sk">Pozrite sa, ako vyzerá obloha v inom čase.</span><span class="desc lang-en">See how the sky looks at another time.</span></li>
+            <li><strong><span class="lang-sk">Červený nočný režim</span><span class="lang-en">Red night mode</span></strong>
+                <span class="desc lang-sk">Oči si zachovajú prispôsobenie tme.</span><span class="desc lang-en">Keeps your eyes adjusted to the dark.</span></li>
+            <li><strong><span class="lang-sk">Zápisník pozorovaní</span><span class="lang-en">Observation log</span></strong>
+                <span class="desc lang-sk">Označte si, čo ste už na oblohe videli.</span><span class="desc lang-en">Mark what you've already seen in the sky.</span></li>
+            <li><strong><span class="lang-sk">Na výšku aj na šírku</span><span class="lang-en">Portrait and landscape</span></strong>
+                <span class="desc lang-sk">Držte telefón, ako vám to vyhovuje.</span><span class="desc lang-en">Hold your phone whichever way suits you.</span></li>
+        </ul>
+    </section>
+
+    <!-- Screenshoty: nahraj obrázky do priečinka "screenshots" s názvami screen-1.png až screen-4.png.
+         Sekcia sa zobrazí sama, až keď aspoň jeden obrázok existuje. Chýbajúce sa jednoducho skryjú. -->
+    <section class="shots" id="shots" hidden aria-labelledby="sh-h">
+        <h2 class="section-h2" id="sh-h"><span class="lang-sk">Ako to vyzerá</span><span class="lang-en">Screenshots</span></h2>
+        <div class="shots-row">
+            <figure><img src="screenshots/screen-1.png" alt="Astropulse – snímka obrazovky 1" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-2.png" alt="Astropulse – snímka obrazovky 2" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-3.png" alt="Astropulse – snímka obrazovky 3" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-4.png" alt="Astropulse – snímka obrazovky 4" onload="showShots()" onerror="this.parentNode.remove()"></figure>
         </div>
     </section>
 
     <section class="story">
         <div class="lang-sk">
             <h2>Príbeh za projektom</h2>
-            <p>Celý tento projekt vznikol z jedného prostého, no silného momentu. Vždy, keď som sa pozeral na nočnú oblohu, ma fascinovala jej hĺbka. Zároveň ma však trápilo, že tie hviezdy a súhvezdia nad sebou nedokážem pomenovať a bližšie spoznať. Chcel som skrátka vyjsť v noci von a presne vedieť, čo mi v tej sekunde svieti nad hlavou. Z tejto túžby po poznaní nakoniec po nociach plných programovania vznikol Astropulse – 3D atlas oblohy postavený na overenej vede a audio rozprávaní, ktorý má slúžiť verejnosti, astronomickým komunitám aj školám ako otvorená vzdelávacia pomôcka.</p>
+            <p>Celý projekt vznikol z jedného prostého momentu. Vždy, keď som sa pozeral na nočnú oblohu, fascinovala ma jej hĺbka. Zároveň ma trápilo, že hviezdy a súhvezdia nad sebou nedokážem pomenovať. Chcel som večer vyjsť von a presne vedieť, čo mi práve svieti nad hlavou.</p>
+            <p>Z tej túžby po poznaní nakoniec po nociach plných programovania vznikol Astropulse. Nechcel som ďalšiu učebnicu v mobile, ale pokojného spoločníka: aplikáciu, ktorá funguje aj tam, kde nie je signál, nevyžaduje účet a nevyrušuje. Vyjdete von, namierite telefón a obloha vám začne rozprávať svoje príbehy.</p>
+            <p>Astropulse je nezávislý projekt jedného vývojára a ešte nie je hotový. Chcem pridávať ďalšie príbehy hviezd a hlbokého vesmíru a ilustrácie súhvezdí. Ak vám niečo chýba alebo vás niečo nadchlo, <a href="mailto:astropulse.support@gmail.com">napíšte mi</a>. Najlepšie nápady vznikajú práve z vašich správ.</p>
         </div>
         <div class="lang-en">
             <h2>The story behind Astropulse</h2>
-            <p>This project started with one simple moment. Whenever I looked up at the night sky, I was fascinated by its depth. But it always bothered me that I couldn't name the stars and constellations shining above me. I just wanted to step outside at night and know exactly what I was looking at. That wish kept me coding through many long nights, and it grew into Astropulse – a 3D sky atlas built on verified science and audio narration, made for stargazers, astronomy clubs, and schools as an open learning tool.</p>
+            <p>This project started with one simple moment. Whenever I looked at the night sky, I was fascinated by its depth. Yet it bothered me that I couldn't name the stars and constellations above me. I wanted to step outside in the evening and know exactly what was shining over my head.</p>
+            <p>That wish, and many nights of programming, led to Astropulse. I didn't want another textbook on my phone. I wanted a quiet companion: an app that works even where there's no signal, needs no account, and never interrupts. You step outside, point your phone, and the sky starts telling you its stories.</p>
+            <p>Astropulse is an independent project by one developer, and it isn't finished yet. I want to add more stories about the stars and the deep sky, and illustrations of the constellations. If something is missing, or something delighted you, <a href="mailto:astropulse.support@gmail.com">write to me</a>. The best ideas come from your messages.</p>
         </div>
     </section>
 
     <footer>
         <div>
-            <span class="lang-sk">© 2026 Astropulse. Všetky práva vyhradené.</span>
-            <span class="lang-en">© 2026 Astropulse. All rights reserved.</span>
+            <span class="lang-sk">© 2026 Astropulse (Slovensko). Všetky práva vyhradené.</span>
+            <span class="lang-en">© 2026 Astropulse (Slovakia). All rights reserved.</span>
             <br>
             <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>
         </div>
