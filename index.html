@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astropulse – Objavte nočnú oblohu</title>
-    <meta name="description" content="Astropulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a príbehy hviezd, ktoré vám aplikácia prečíta nahlas. Offline, zadarmo, bez reklám.">
+    <title>AstroPulse – Objavte nočnú oblohu</title>
+    <meta name="description" content="AstroPulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a príbehy hviezd, ktoré vám aplikácia prečíta nahlas. Offline, zadarmo, bez reklám.">
     <meta name="theme-color" content="#020205">
 
     <!-- Náhľad pri zdieľaní (Facebook, Messenger, WhatsApp…) -->
     <link rel="canonical" href="https://www.getastropulse.com/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.getastropulse.com/">
-    <meta property="og:title" content="Astropulse – Objavte nočnú oblohu">
+    <meta property="og:title" content="AstroPulse – Objavte nočnú oblohu">
     <meta property="og:description" content="Interaktívny 3D atlas nočnej oblohy pre Android. Offline, zadarmo, bez reklám.">
-    <!-- Keď budeš mať obrázok 1200×630 px, odkomentuj a doplň plnú adresu: -->
-    <!-- <meta property="og:image" content="https://www.getastropulse.com/og-image.png"> -->
+    <meta property="og:image" content="https://www.getastropulse.com/images/og-image.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="AstroPulse – pokojný sprievodca nočnou oblohou">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90' fill='%2300F2FE'%3E✦%3C/text%3E%3C/svg%3E">
+    <link rel="preload" as="image" href="images/hero.jpg">
+    <link rel="icon" type="image/png" href="images/favicon-64.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 
     <style>
         body {
@@ -52,6 +57,8 @@
             align-items: center;
             gap: 12px;
         }
+
+        .logo-icon { display: block; border-radius: 8px; box-shadow: 0 0 12px rgba(0, 242, 254, 0.25); }
 
         .logo-text {
             font-size: 20px;
@@ -228,8 +235,9 @@
             padding-left: 28px; position: relative;
         }
         .feature-list li::before {
-            content: "✦"; position: absolute; left: 0; top: 1px;
-            color: #00F2FE; font-size: 15px;
+            content: ""; position: absolute; left: 4px; top: 8px;
+            width: 7px; height: 7px; border-radius: 50%;
+            background: #00F2FE; box-shadow: 0 0 8px rgba(0, 242, 254, 0.8);
         }
         .feature-list strong { display: block; color: #67e8f9; font-size: 16px; margin-bottom: 2px; }
         .feature-list span.desc { color: #9ca3af; font-size: 14px; line-height: 1.5; }
@@ -250,6 +258,64 @@
             background: #030712;
         }
         @media (max-width: 640px) { .shots img { height: 380px; } }
+
+        /* Hero s obrázkom */
+        .hero {
+            position: relative;
+            width: 100%;
+            /* na širokých monitoroch výška podľa pomeru strán obrázka, aby sa nič neorezalo */
+            min-height: max(min(100vh, 880px), 55.8vw);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .hero-img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover; object-position: 32% 50%;
+            z-index: 1;
+            /* spodok obrázka sa rozplynie do hviezdneho pozadia stránky */
+            -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 82%, rgba(0,0,0,0.55) 91%, transparent 100%);
+            mask-image: linear-gradient(180deg, #000 0%, #000 82%, rgba(0,0,0,0.55) 91%, transparent 100%);
+        }
+        .hero-shade {
+            position: absolute; inset: 0; z-index: 2; pointer-events: none;
+            background:
+                linear-gradient(90deg, rgba(2,2,5,0) 38%, rgba(2,2,5,0.45) 68%, rgba(2,2,5,0.65) 100%),
+                linear-gradient(180deg, rgba(2,2,5,0.6) 0, rgba(2,2,5,0) 16%);
+        }
+        .hero header {
+            position: absolute; top: 0; left: 0; right: 0;
+        }
+        .hero .main-container {
+            justify-content: flex-end;
+            padding-top: 110px;
+        }
+        .hero-content {
+            width: 100%;
+            max-width: 520px;
+            text-shadow: 0 1px 12px rgba(2, 2, 5, 0.8);
+        }
+        .hero-content .hero-p { color: #e5e7eb; }
+        .hero-content .action-button, .hero-content .check-badge, .hero-content .pill { text-shadow: none; }
+
+        @media (max-width: 899px) {
+            .hero { min-height: 0; }
+            .hero-img {
+                position: relative; inset: auto;
+                height: 62vh; max-height: 540px; min-height: 320px;
+            }
+            .hero-shade {
+                bottom: auto; height: 62vh; max-height: 540px; min-height: 320px;
+                background: linear-gradient(180deg, rgba(2,2,5,0.65) 0, rgba(2,2,5,0) 20%);
+            }
+            .hero .main-container {
+                justify-content: center;
+                margin-top: -72px;
+                padding-top: 0;
+            }
+            .hero-content { max-width: 650px; }
+        }
 
         .lang-switch {
             font-size: 12px;
@@ -351,10 +417,17 @@
     <div id="space-canvas" aria-hidden="true"></div>
     <div class="nebula" aria-hidden="true"></div>
 
+    <div class="hero">
+        <img class="hero-img" src="images/hero.jpg" width="1376" height="768"
+             alt="Rodina pri ohni pozoruje súhvezdie Orión na nočnej oblohe"
+             data-alt-sk="Rodina pri ohni pozoruje súhvezdie Orión na nočnej oblohe"
+             data-alt-en="A family by a campfire looking at the constellation Orion in the night sky">
+        <div class="hero-shade" aria-hidden="true"></div>
+
     <header>
         <div style="display: flex; align-items: center; gap: 8px;">
-            <span style="font-size: 24px; color: #00F2FE;" aria-hidden="true">✦</span>
-            <span class="logo-text">Astropulse</span>
+            <img src="images/logo.png" width="32" height="32" alt="" class="logo-icon">
+            <span class="logo-text">AstroPulse</span>
         </div>
         <div style="display: flex; align-items: center; gap: 16px;">
             <div class="lang-switch" role="group" aria-label="Jazyk / Language">
@@ -367,12 +440,12 @@
     </header>
 
     <main class="main-container">
-        <div style="width: 100%;">
+        <div class="hero-content">
             <div class="lang-sk">
                 <div class="pill">Interaktívny 3D atlas oblohy pre Android</div>
                 <h1>Objavte nočnú<br><span class="gradient-text">oblohu nad vami</span></h1>
                 <p class="hero-p">Namierte mobil na oblohu a zistite, čo práve vidíte. Spoznajte všetkých 88 súhvezdí a planéty Slnečnej sústavy, overené vedecké údaje aj mýty, ktoré ľudia o hviezdach rozprávajú už tisíce rokov. Príbehy vám aplikácia vie prečítať nahlas.</p>
-                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=Astropulse%20%E2%80%93%20dajte%20mi%20vedie%C5%A5%20o%20spusten%C3%AD">Dajte mi vedieť o spustení</a>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20dajte%20mi%20vedie%C5%A5%20o%20spusten%C3%AD">Dajte mi vedieť o spustení</a>
                 <p class="action-note">Už čoskoro v Google Play</p>
             </div>
 
@@ -380,7 +453,7 @@
                 <div class="pill">An interactive 3D sky atlas for Android</div>
                 <h1>Discover the night sky<br><span class="gradient-text">above you</span></h1>
                 <p class="hero-p">Point your phone at the sky and find out what you're looking at. Explore all 88 constellations and the planets of our Solar System, with verified science and the myths people have told about the stars for thousands of years. The app can read the stories aloud to you.</p>
-                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=Astropulse%20%E2%80%93%20notify%20me%20at%20launch">Notify me at launch</a>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20notify%20me%20at%20launch">Notify me at launch</a>
                 <p class="action-note">Coming soon to Google Play</p>
             </div>
 
@@ -391,6 +464,7 @@
             </div>
         </div>
     </main>
+    </div>
 
     <section class="features-grid">
         <div class="card lang-sk">
@@ -450,10 +524,10 @@
     <section class="shots" id="shots" hidden aria-labelledby="sh-h">
         <h2 class="section-h2" id="sh-h"><span class="lang-sk">Ako to vyzerá</span><span class="lang-en">Screenshots</span></h2>
         <div class="shots-row">
-            <figure><img src="screenshots/screen-1.png" alt="Astropulse – snímka obrazovky 1" onload="showShots()" onerror="this.parentNode.remove()"></figure>
-            <figure><img src="screenshots/screen-2.png" alt="Astropulse – snímka obrazovky 2" onload="showShots()" onerror="this.parentNode.remove()"></figure>
-            <figure><img src="screenshots/screen-3.png" alt="Astropulse – snímka obrazovky 3" onload="showShots()" onerror="this.parentNode.remove()"></figure>
-            <figure><img src="screenshots/screen-4.png" alt="Astropulse – snímka obrazovky 4" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-1.png" alt="AstroPulse – snímka obrazovky 1" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-2.png" alt="AstroPulse – snímka obrazovky 2" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-3.png" alt="AstroPulse – snímka obrazovky 3" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+            <figure><img src="screenshots/screen-4.png" alt="AstroPulse – snímka obrazovky 4" onload="showShots()" onerror="this.parentNode.remove()"></figure>
         </div>
     </section>
 
@@ -461,21 +535,21 @@
         <div class="lang-sk">
             <h2>Príbeh za projektom</h2>
             <p>Celý projekt vznikol z jedného prostého momentu. Vždy, keď som sa pozeral na nočnú oblohu, fascinovala ma jej hĺbka. Zároveň ma trápilo, že hviezdy a súhvezdia nad sebou nedokážem pomenovať. Chcel som večer vyjsť von a presne vedieť, čo mi práve svieti nad hlavou.</p>
-            <p>Z tej túžby po poznaní nakoniec po nociach plných programovania vznikol Astropulse. Nechcel som ďalšiu učebnicu v mobile, ale pokojného spoločníka: aplikáciu, ktorá funguje aj tam, kde nie je signál, nevyžaduje účet a nevyrušuje. Vyjdete von, namierite telefón a obloha vám začne rozprávať svoje príbehy.</p>
-            <p>Astropulse je nezávislý projekt jedného vývojára a ešte nie je hotový. Chcem pridávať ďalšie príbehy hviezd a hlbokého vesmíru a ilustrácie súhvezdí. Ak vám niečo chýba alebo vás niečo nadchlo, <a href="mailto:astropulse.support@gmail.com">napíšte mi</a>. Najlepšie nápady vznikajú práve z vašich správ.</p>
+            <p>Z tej túžby po poznaní nakoniec po nociach plných programovania vznikol AstroPulse. Nechcel som ďalšiu učebnicu v mobile, ale pokojného spoločníka: aplikáciu, ktorá funguje aj tam, kde nie je signál, nevyžaduje účet a nevyrušuje. Vyjdete von, namierite telefón a obloha vám začne rozprávať svoje príbehy.</p>
+            <p>AstroPulse je nezávislý projekt jedného vývojára a ešte nie je hotový. Chcem pridávať ďalšie príbehy hviezd a hlbokého vesmíru a ilustrácie súhvezdí. Ak vám niečo chýba alebo vás niečo nadchlo, <a href="mailto:astropulse.support@gmail.com">napíšte mi</a>. Najlepšie nápady vznikajú práve z vašich správ.</p>
         </div>
         <div class="lang-en">
-            <h2>The story behind Astropulse</h2>
+            <h2>The story behind AstroPulse</h2>
             <p>This project started with one simple moment. Whenever I looked at the night sky, I was fascinated by its depth. Yet it bothered me that I couldn't name the stars and constellations above me. I wanted to step outside in the evening and know exactly what was shining over my head.</p>
-            <p>That wish, and many nights of programming, led to Astropulse. I didn't want another textbook on my phone. I wanted a quiet companion: an app that works even where there's no signal, needs no account, and never interrupts. You step outside, point your phone, and the sky starts telling you its stories.</p>
-            <p>Astropulse is an independent project by one developer, and it isn't finished yet. I want to add more stories about the stars and the deep sky, and illustrations of the constellations. If something is missing, or something delighted you, <a href="mailto:astropulse.support@gmail.com">write to me</a>. The best ideas come from your messages.</p>
+            <p>That wish, and many nights of programming, led to AstroPulse. I didn't want another textbook on my phone. I wanted a quiet companion: an app that works even where there's no signal, needs no account, and never interrupts. You step outside, point your phone, and the sky starts telling you its stories.</p>
+            <p>AstroPulse is an independent project by one developer, and it isn't finished yet. I want to add more stories about the stars and the deep sky, and illustrations of the constellations. If something is missing, or something delighted you, <a href="mailto:astropulse.support@gmail.com">write to me</a>. The best ideas come from your messages.</p>
         </div>
     </section>
 
     <footer>
         <div>
-            <span class="lang-sk">© 2026 Astropulse (Slovensko). Všetky práva vyhradené.</span>
-            <span class="lang-en">© 2026 Astropulse (Slovakia). All rights reserved.</span>
+            <span class="lang-sk">© 2026 AstroPulse (Slovensko). Všetky práva vyhradené.</span>
+            <span class="lang-en">© 2026 AstroPulse (Slovakia). All rights reserved.</span>
             <br>
             <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>
         </div>
@@ -505,14 +579,16 @@
         }
 
         const titles = {
-            sk: 'Astropulse – Objavte nočnú oblohu',
-            en: 'Astropulse – Discover the Night Sky'
+            sk: 'AstroPulse – Objavte nočnú oblohu',
+            en: 'AstroPulse – Discover the Night Sky'
         };
 
         function switchLang(lang) {
             document.documentElement.setAttribute('data-lang', lang);
             document.documentElement.lang = lang;
             document.title = titles[lang];
+            var hi = document.querySelector('.hero-img');
+            if (hi) hi.alt = hi.getAttribute('data-alt-' + lang);
             document.getElementById('btn-sk').setAttribute('aria-pressed', lang === 'sk');
             document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
             try { localStorage.setItem('astropulse-lang', lang); } catch (e) {}
