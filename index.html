@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstroPulse – Objavte nočnú oblohu</title>
-    <meta name="description" content="AstroPulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a príbehy hviezd, ktoré vám aplikácia prečíta nahlas. Offline, zadarmo, bez reklám.">
+    <title>AstroPulse – Objav nočnú oblohu</title>
+    <meta name="description" content="AstroPulse – interaktívny 3D atlas nočnej oblohy pre Android. Všetkých 88 súhvezdí, planéty a príbehy hviezd, ktoré ti aplikácia prečíta nahlas. Offline, zadarmo, bez reklám.">
     <meta name="theme-color" content="#020205">
 
     <!-- Náhľad pri zdieľaní (Facebook, Messenger, WhatsApp…) -->
     <link rel="canonical" href="https://www.getastropulse.com/">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://www.getastropulse.com/">
-    <meta property="og:title" content="AstroPulse – Objavte nočnú oblohu">
+    <meta property="og:title" content="AstroPulse – Objav nočnú oblohu">
     <meta property="og:description" content="Interaktívny 3D atlas nočnej oblohy pre Android. Offline, zadarmo, bez reklám.">
     <meta property="og:image" content="https://www.getastropulse.com/images/og-image.png">
     <meta property="og:image:width" content="1200">
@@ -242,22 +242,62 @@
         .feature-list strong { display: block; color: #67e8f9; font-size: 16px; margin-bottom: 2px; }
         .feature-list span.desc { color: #9ca3af; font-size: 14px; line-height: 1.5; }
 
-        /* Screenshoty – sekcia sa zobrazí, až keď existuje aspoň jeden obrázok */
+        /* Screenshoty */
         .shots {
             width: 100%; max-width: 1100px; margin: 0 auto 72px auto; padding: 0 24px;
             box-sizing: border-box; position: relative; z-index: 10;
         }
+        .shots-hint { text-align: center; color: #6b7280; font-size: 14px; margin: -14px 0 20px 0; }
+        .shots-wrap { position: relative; }
         .shots-row {
-            display: flex; gap: 20px; overflow-x: auto; padding-bottom: 12px;
-            scroll-snap-type: x mandatory; justify-content: safe center;
+            display: flex; gap: 18px; overflow-x: auto; padding: 4px 4px 14px 4px;
+            scroll-snap-type: x mandatory; scroll-behavior: smooth; justify-content: safe center;
+            scrollbar-width: thin; scrollbar-color: #155e75 transparent;
         }
-        .shots figure { margin: 0; flex: 0 0 auto; scroll-snap-align: center; }
-        .shots img {
-            display: block; height: 440px; width: auto; max-width: 80vw; object-fit: contain;
-            border-radius: 20px; border: 1px solid #1f2937;
-            background: #030712;
+        .shot {
+            flex: 0 0 auto; scroll-snap-align: start; padding: 0; margin: 0;
+            border: 1px solid #1f2937; border-radius: 18px; overflow: hidden;
+            background: #030712; cursor: zoom-in;
+            transition: border-color 0.2s, transform 0.2s;
         }
-        @media (max-width: 640px) { .shots img { height: 380px; } }
+        .shot:hover { border-color: rgba(0, 242, 254, 0.5); transform: translateY(-2px); }
+        .shot img { display: block; height: 520px; width: auto; aspect-ratio: 9 / 20; }
+        @media (max-width: 640px) { .shot img { height: 430px; } }
+        .shots-nav {
+            position: absolute; top: calc(50% - 7px); transform: translateY(-50%);
+            width: 44px; height: 44px; border-radius: 50%;
+            border: 1px solid rgba(21, 94, 117, 0.8); background: rgba(3, 7, 18, 0.85);
+            color: #67e8f9; font-size: 22px; line-height: 1; cursor: pointer; z-index: 2;
+        }
+        .shots-nav:hover { border-color: #00F2FE; color: #00F2FE; }
+        .shots-nav.prev { left: -14px; } .shots-nav.next { right: -14px; }
+        .shots-nav[disabled] { opacity: 0; pointer-events: none; }
+        @media (hover: none) { .shots-nav { display: none; } }
+
+        /* Zväčšenie screenshotu */
+        .lb {
+            position: fixed; inset: 0; z-index: 100;
+            background: rgba(2, 2, 5, 0.94);
+            display: flex; align-items: center; justify-content: center; padding: 16px;
+        }
+        .lb[hidden] { display: none; }
+        .lb img {
+            max-height: calc(100vh - 32px); max-width: calc(100vw - 32px);
+            width: auto; height: auto; border-radius: 18px; border: 1px solid #1f2937;
+        }
+        .lb button {
+            position: absolute; width: 48px; height: 48px; border-radius: 50%;
+            border: 1px solid rgba(21, 94, 117, 0.8); background: rgba(3, 7, 18, 0.9);
+            color: #67e8f9; font-size: 24px; line-height: 1; cursor: pointer;
+        }
+        .lb button:hover { border-color: #00F2FE; color: #00F2FE; }
+        .lb .lb-close { top: 16px; right: 16px; }
+        .lb .lb-prev { left: 16px; top: 50%; transform: translateY(-50%); }
+        .lb .lb-next { right: 16px; top: 50%; transform: translateY(-50%); }
+        @media (max-width: 640px) {
+            .lb .lb-prev, .lb .lb-next { top: auto; bottom: 16px; transform: none; }
+            .lb img { max-height: calc(100vh - 96px); }
+        }
 
         /* Hero s obrázkom */
         .hero {
@@ -423,9 +463,6 @@
     </style>
 
     <script>
-        function showShots() { var el = document.getElementById('shots'); if (el) el.hidden = false; }
-    </script>
-    <script>
         // Nastaví jazyk ešte pred vykreslením stránky (bez blikania)
         (function () {
             var lang = 'sk';
@@ -525,9 +562,9 @@
         <div class="hero-content">
             <div class="lang-sk">
                 <div class="pill">Interaktívny 3D atlas oblohy pre Android</div>
-                <h1>Objavte nočnú<br><span class="gradient-text">oblohu nad vami</span></h1>
-                <p class="hero-p">Namierte mobil na oblohu a zistite, čo práve vidíte. Spoznajte všetkých 88 súhvezdí a planéty Slnečnej sústavy, overené vedecké údaje aj mýty, ktoré ľudia o hviezdach rozprávajú už tisíce rokov. Príbehy vám aplikácia vie prečítať nahlas.</p>
-                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20dajte%20mi%20vedie%C5%A5%20o%20spusten%C3%AD">Dajte mi vedieť o spustení</a>
+                <h1>Objav nočnú<br><span class="gradient-text">oblohu nad tebou</span></h1>
+                <p class="hero-p">Namier mobil na oblohu a zisti, čo práve vidíš. Spoznaj všetkých 88 súhvezdí a planéty Slnečnej sústavy, overené vedecké údaje aj mýty, ktoré ľudia o hviezdach rozprávajú už tisíce rokov. Príbehy ti aplikácia vie prečítať nahlas.</p>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20daj%20mi%20vedie%C5%A5%20o%20spusten%C3%AD">Daj mi vedieť o spustení</a>
                 <p class="action-note">Už čoskoro v Google Play</p>
             </div>
 
@@ -552,7 +589,7 @@
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🌌</div>
             <h3 class="card-h3">Interaktívny 3D atlas</h3>
-            <p class="card-p">Plynule otáčajte a približujte celú nebeskú sféru. Pri priblížení uvidíte hviezdokopy, hmloviny a galaxie na ich miestach na oblohe.</p>
+            <p class="card-p">Plynule otáčaj a približuj celú nebeskú sféru. Pri priblížení uvidíš hviezdokopy, hmloviny a galaxie na ich miestach na oblohe.</p>
         </div>
         <div class="card lang-en">
             <div class="card-icon" aria-hidden="true">🌌</div>
@@ -563,7 +600,7 @@
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🔊</div>
             <h3 class="card-h3">Príbehy hviezd</h3>
-            <p class="card-p">Príbehy hviezd a súhvezdí, mýty aj to, čo o nich vie dnešná astronómia. Aplikácia vám ich vie prečítať nahlas.</p>
+            <p class="card-p">Príbehy hviezd a súhvezdí, mýty aj to, čo o nich vie dnešná astronómia. Aplikácia ti ich vie prečítať nahlas.</p>
         </div>
         <div class="card lang-en">
             <div class="card-icon" aria-hidden="true">🔊</div>
@@ -574,7 +611,7 @@
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🛡️</div>
             <h3 class="card-h3">Bez registrácie, bez zberu dát</h3>
-            <p class="card-p">Žiadne vyskakovacie okná, žiadne registrácie, žiadny zber údajov. Poloha a kompas sa používajú len vo vašom mobile.</p>
+            <p class="card-p">Žiadne vyskakovacie okná, žiadne registrácie, žiadny zber údajov. Poloha a kompas sa používajú len v tvojom mobile.</p>
         </div>
         <div class="card lang-en">
             <div class="card-icon" aria-hidden="true">🛡️</div>
@@ -584,41 +621,63 @@
     </section>
 
     <section class="feature-list" aria-labelledby="fl-h">
-        <h2 class="section-h2" id="fl-h"><span class="lang-sk">Čo v aplikácii nájdete</span><span class="lang-en">What's inside</span></h2>
+        <h2 class="section-h2" id="fl-h"><span class="lang-sk">Čo v aplikácii nájdeš</span><span class="lang-en">What's inside</span></h2>
         <ul>
             <li><strong><span class="lang-sk">Kalendár Mesiaca</span><span class="lang-en">Moon calendar</span></strong>
                 <span class="desc lang-sk">Fázy Mesiaca deň po dni.</span><span class="desc lang-en">Moon phases day by day.</span></li>
             <li><strong><span class="lang-sk">Viditeľné teraz</span><span class="lang-en">Visible now</span></strong>
-                <span class="desc lang-sk">Čo je práve nad obzorom tam, kde stojíte.</span><span class="desc lang-en">What's above the horizon where you are right now.</span></li>
+                <span class="desc lang-sk">Čo je práve nad obzorom tam, kde stojíš.</span><span class="desc lang-en">What's above the horizon where you are right now.</span></li>
             <li><strong><span class="lang-sk">Cestovanie v čase</span><span class="lang-en">Time travel</span></strong>
-                <span class="desc lang-sk">Pozrite sa, ako vyzerá obloha v inom čase.</span><span class="desc lang-en">See how the sky looks at another time.</span></li>
+                <span class="desc lang-sk">Pozri sa, ako vyzerá obloha v inom čase.</span><span class="desc lang-en">See how the sky looks at another time.</span></li>
             <li><strong><span class="lang-sk">Červený nočný režim</span><span class="lang-en">Red night mode</span></strong>
                 <span class="desc lang-sk">Oči si zachovajú prispôsobenie tme.</span><span class="desc lang-en">Keeps your eyes adjusted to the dark.</span></li>
             <li><strong><span class="lang-sk">Zápisník pozorovaní</span><span class="lang-en">Observation log</span></strong>
-                <span class="desc lang-sk">Označte si, čo ste už na oblohe videli.</span><span class="desc lang-en">Mark what you've already seen in the sky.</span></li>
+                <span class="desc lang-sk">Zaznamenaj si, čo sa ti už na oblohe podarilo nájsť.</span><span class="desc lang-en">Mark what you've already seen in the sky.</span></li>
             <li><strong><span class="lang-sk">Na výšku aj na šírku</span><span class="lang-en">Portrait and landscape</span></strong>
-                <span class="desc lang-sk">Držte telefón, ako vám to vyhovuje.</span><span class="desc lang-en">Hold your phone whichever way suits you.</span></li>
+                <span class="desc lang-sk">Drž telefón, ako ti to vyhovuje.</span><span class="desc lang-en">Hold your phone whichever way suits you.</span></li>
         </ul>
     </section>
 
-    <!-- Screenshoty: nahraj obrázky do priečinka "screenshots" s názvami screen-1.png až screen-4.png.
-         Sekcia sa zobrazí sama, až keď aspoň jeden obrázok existuje. Chýbajúce sa jednoducho skryjú. -->
-    <section class="shots" id="shots" hidden aria-labelledby="sh-h">
+    <section class="shots" id="shots" aria-labelledby="sh-h">
         <h2 class="section-h2" id="sh-h"><span class="lang-sk">Ako to vyzerá</span><span class="lang-en">Screenshots</span></h2>
-        <div class="shots-row">
-            <figure><img src="screenshots/screen-1.png" alt="AstroPulse – snímka obrazovky 1" onload="showShots()" onerror="this.parentNode.remove()"></figure>
-            <figure><img src="screenshots/screen-2.png" alt="AstroPulse – snímka obrazovky 2" onload="showShots()" onerror="this.parentNode.remove()"></figure>
-            <figure><img src="screenshots/screen-3.png" alt="AstroPulse – snímka obrazovky 3" onload="showShots()" onerror="this.parentNode.remove()"></figure>
-            <figure><img src="screenshots/screen-4.png" alt="AstroPulse – snímka obrazovky 4" onload="showShots()" onerror="this.parentNode.remove()"></figure>
+        <p class="shots-hint"><span class="lang-sk">Ťukni alebo klikni na obrázok a zväčšíš ho.</span><span class="lang-en">Tap or click a screenshot to enlarge it.</span></p>
+        <div class="shots-wrap">
+            <button class="shots-nav prev" type="button" aria-label="Predchádzajúce / Previous">‹</button>
+            <div class="shots-row" id="shots-row">
+            <button class="shot" type="button" data-i="0">
+                <img class="lang-sk" src="screenshots/sk-1-suhvezdia.webp" width="720" height="1600" loading="lazy" alt="Namier telefón a uvidíš súhvezdia">
+                <img class="lang-en" src="screenshots/en-1-constellations.webp" width="720" height="1600" loading="lazy" alt="Aim your phone, see the constellations">
+            </button>
+            <button class="shot" type="button" data-i="1">
+                <img class="lang-sk" src="screenshots/sk-3-pribehy.webp" width="720" height="1600" loading="lazy" alt="Príbehy hviezd a súhvezdí">
+                <img class="lang-en" src="screenshots/en-3-stories.webp" width="720" height="1600" loading="lazy" alt="Stories of stars and constellations">
+            </button>
+            <button class="shot" type="button" data-i="2">
+                <img class="lang-sk" src="screenshots/sk-6-slnecna-sustava.webp" width="720" height="1600" loading="lazy" alt="Slnečná sústava s fotkami z NASA">
+                <img class="lang-en" src="screenshots/en-6-solar-system.webp" width="720" height="1600" loading="lazy" alt="The Solar System with NASA photos">
+            </button>
+            <button class="shot" type="button" data-i="3">
+                <img class="lang-sk" src="screenshots/sk-7-nocny-rezim.webp" width="720" height="1600" loading="lazy" alt="Červený nočný režim – šetrí tvoje oči">
+                <img class="lang-en" src="screenshots/en-7-night-mode.webp" width="720" height="1600" loading="lazy" alt="Red night mode – easy on your eyes">
+            </button>
+            </div>
+            <button class="shots-nav next" type="button" aria-label="Ďalšie / Next">›</button>
         </div>
     </section>
+
+    <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Screenshot">
+        <img id="lb-img" alt="">
+        <button class="lb-close" type="button" aria-label="Zavrieť / Close">✕</button>
+        <button class="lb-prev" type="button" aria-label="Predchádzajúci / Previous">‹</button>
+        <button class="lb-next" type="button" aria-label="Ďalší / Next">›</button>
+    </div>
 
     <section class="story">
         <div class="lang-sk">
             <h2>Príbeh za projektom</h2>
             <p>Celý projekt vznikol z jedného prostého momentu. Vždy, keď som sa pozeral na nočnú oblohu, fascinovala ma jej hĺbka. Zároveň ma trápilo, že hviezdy a súhvezdia nad sebou nedokážem pomenovať. Chcel som večer vyjsť von a presne vedieť, čo mi práve svieti nad hlavou.</p>
-            <p>Z tej túžby po poznaní nakoniec po nociach plných programovania vznikol AstroPulse. Nechcel som ďalšiu učebnicu v mobile, ale pokojného spoločníka: aplikáciu, ktorá funguje aj tam, kde nie je signál, nevyžaduje účet a nevyrušuje. Vyjdete von, namierite telefón a obloha vám začne rozprávať svoje príbehy.</p>
-            <p>AstroPulse je nezávislý projekt jedného vývojára a ešte nie je hotový. Chcem pridávať ďalšie príbehy hviezd a hlbokého vesmíru a ilustrácie súhvezdí. Ak vám niečo chýba alebo vás niečo nadchlo, <a href="mailto:astropulse.support@gmail.com">napíšte mi</a>. Najlepšie nápady vznikajú práve z vašich správ.</p>
+            <p>Z tej túžby po poznaní nakoniec po nociach plných programovania vznikol AstroPulse. Nechcel som ďalšiu učebnicu v mobile, ale pokojného spoločníka: aplikáciu, ktorá funguje aj tam, kde nie je signál, nevyžaduje účet a nevyrušuje. Vyjdeš von, namieriš telefón a obloha ti začne rozprávať svoje príbehy.</p>
+            <p>AstroPulse je nezávislý projekt jedného vývojára a ešte nie je hotový. Chcem pridávať ďalšie príbehy hviezd a hlbokého vesmíru a ilustrácie súhvezdí. Ak ti niečo chýba alebo ťa niečo nadchlo, <a href="mailto:astropulse.support@gmail.com">napíš mi</a>. Najlepšie nápady vznikajú práve z tvojich správ.</p>
         </div>
         <div class="lang-en">
             <h2>The story behind AstroPulse</h2>
@@ -662,8 +721,57 @@
             canvas.appendChild(star);
         }
 
+        // Screenshoty: posúvanie šípkami a zväčšenie po kliknutí
+        (function () {
+            const row = document.getElementById('shots-row');
+            if (!row) return;
+            const prev = document.querySelector('.shots-nav.prev');
+            const next = document.querySelector('.shots-nav.next');
+            const step = () => (row.querySelector('.shot') || {}).offsetWidth + 18 || 300;
+            function upd() {
+                prev.disabled = row.scrollLeft < 8;
+                next.disabled = row.scrollLeft + row.clientWidth > row.scrollWidth - 8;
+            }
+            prev.addEventListener('click', () => row.scrollBy({ left: -step() * 2 }));
+            next.addEventListener('click', () => row.scrollBy({ left: step() * 2 }));
+            row.addEventListener('scroll', upd, { passive: true });
+            window.addEventListener('resize', upd);
+            upd();
+
+            const shots = Array.from(row.querySelectorAll('.shot'));
+            const lb = document.getElementById('lb'), lbImg = document.getElementById('lb-img');
+            let cur = 0, opener = null;
+            function show(i) {
+                cur = (i + shots.length) % shots.length;
+                const lang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'sk';
+                const src = shots[cur].querySelector('img.lang-' + lang);
+                lbImg.src = src.getAttribute('src'); lbImg.alt = src.alt;
+            }
+            function open(i) { opener = document.activeElement; show(i); lb.hidden = false; document.body.style.overflow = 'hidden'; lb.querySelector('.lb-close').focus(); }
+            function close() { lb.hidden = true; document.body.style.overflow = ''; if (opener) opener.focus(); }
+            shots.forEach((b, i) => b.addEventListener('click', () => open(i)));
+            lb.querySelector('.lb-close').addEventListener('click', close);
+            lb.querySelector('.lb-prev').addEventListener('click', () => show(cur - 1));
+            lb.querySelector('.lb-next').addEventListener('click', () => show(cur + 1));
+            lb.addEventListener('click', e => { if (e.target === lb) close(); });
+            document.addEventListener('keydown', e => {
+                if (lb.hidden) return;
+                if (e.key === 'Escape') close();
+                else if (e.key === 'ArrowLeft') show(cur - 1);
+                else if (e.key === 'ArrowRight') show(cur + 1);
+            });
+            // potiahnutie prstom v zväčšenom režime
+            let x0 = null;
+            lb.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive: true });
+            lb.addEventListener('touchend', e => {
+                if (x0 === null) return;
+                const dx = e.changedTouches[0].clientX - x0; x0 = null;
+                if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+            });
+        })();
+
         const titles = {
-            sk: 'AstroPulse – Objavte nočnú oblohu',
+            sk: 'AstroPulse – Objav nočnú oblohu',
             en: 'AstroPulse – Discover the Night Sky'
         };
 
