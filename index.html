@@ -38,8 +38,11 @@
         }
 
         /* Jazyky: prepína sa jedným atribútom na <html> */
-        html[data-lang="sk"] .lang-en,
-        html[data-lang="en"] .lang-sk { display: none !important; }
+        html:not([data-lang="sk"]) .lang-sk,
+        html:not([data-lang="cs"]) .lang-cs,
+        html:not([data-lang="en"]) .lang-en,
+        html:not([data-lang="de"]) .lang-de,
+        html:not([data-lang="es"]) .lang-es { display: none !important; }
 
         header, footer, .main-container, .features-grid {
             width: 100%;
@@ -456,10 +459,14 @@
             .action-button:hover { transform: none; }
         }
 
+        @media (max-width: 899px) { .badge { display: none; } }
         @media (max-width: 420px) {
             header { padding: 16px; }
-            .badge { display: none; }
+            .lang-switch { gap: 2px; padding: 3px; }
+            .lang-btn { padding: 4px 6px; }
+            .logo-text { font-size: 17px; }
         }
+        @media (max-width: 360px) { .logo-text { display: none; } }
     </style>
 
     <script>
@@ -468,11 +475,12 @@
             var lang = 'sk';
             try {
                 var saved = localStorage.getItem('astropulse-lang');
-                if (saved === 'sk' || saved === 'en') {
+                var ok = ['sk', 'cs', 'en', 'de', 'es'];
+                if (ok.indexOf(saved) >= 0) {
                     lang = saved;
                 } else {
-                    var nav = (navigator.language || 'sk').toLowerCase();
-                    lang = (nav.indexOf('sk') === 0 || nav.indexOf('cs') === 0) ? 'sk' : 'en';
+                    var nav = (navigator.language || 'sk').toLowerCase().slice(0, 2);
+                    lang = ok.indexOf(nav) >= 0 ? nav : 'en';
                 }
             } catch (e) {}
             document.documentElement.setAttribute('data-lang', lang);
@@ -491,7 +499,10 @@
         <img class="hero-img" src="images/hero-v5.webp" width="1376" height="768"
              alt="Rodina pri ohni pozoruje súhvezdie Orión na nočnej oblohe"
              data-alt-sk="Rodina pri ohni pozoruje súhvezdie Orión na nočnej oblohe"
-             data-alt-en="A family by a campfire looking at the constellation Orion in the night sky">
+             data-alt-en="A family by a campfire looking at the constellation Orion in the night sky"
+             data-alt-cs="Rodina u ohně pozoruje souhvězdí Orion na noční obloze"
+             data-alt-de="Eine Familie am Lagerfeuer betrachtet das Sternbild Orion am Nachthimmel"
+             data-alt-es="Una familia junto a una hoguera observa la constelación de Orión en el cielo nocturno">
                 <div aria-hidden="true">
                 <i class="tw c" style="left:60.47%;top:24.15%;--s:4.4px;--d:3.9s;--dl:-3.7s"></i>
                 <i class="tw" style="left:59.52%;top:37.3%;--s:4.4px;--d:4.4s;--dl:-4.7s"></i>
@@ -550,11 +561,14 @@
         </div>
         <div style="display: flex; align-items: center; gap: 16px;">
             <div class="lang-switch" role="group" aria-label="Jazyk / Language">
-                <button id="btn-sk" onclick="switchLang('sk')" class="lang-btn" aria-pressed="true">SK</button>
-                <button id="btn-en" onclick="switchLang('en')" class="lang-btn" aria-pressed="false">EN</button>
+                <button id="btn-sk" onclick="switchLang('sk')" class="lang-btn" aria-pressed="true" lang="sk" title="Slovenčina">SK</button>
+                <button id="btn-cs" onclick="switchLang('cs')" class="lang-btn" aria-pressed="false" lang="cs" title="Čeština">CZ</button>
+                <button id="btn-en" onclick="switchLang('en')" class="lang-btn" aria-pressed="false" lang="en" title="English">EN</button>
+                <button id="btn-de" onclick="switchLang('de')" class="lang-btn" aria-pressed="false" lang="de" title="Deutsch">DE</button>
+                <button id="btn-es" onclick="switchLang('es')" class="lang-btn" aria-pressed="false" lang="es" title="Español">ES</button>
             </div>
             <span class="badge lang-sk">Pripravujeme</span>
-            <span class="badge lang-en">Coming soon</span>
+            <span class="badge lang-en">Coming soon</span><span class="badge lang-cs">Připravujeme</span><span class="badge lang-de">Demnächst</span><span class="badge lang-es">Próximamente</span>
         </div>
     </header>
 
@@ -576,10 +590,34 @@
                 <p class="action-note">Coming soon to Google Play</p>
             </div>
 
+            <div class="lang-cs">
+                <div class="pill">Interaktivní 3D atlas oblohy pro Android</div>
+                <h1>Objev noční<br><span class="gradient-text">oblohu nad sebou</span></h1>
+                <p class="hero-p">Namiř mobil na oblohu a zjisti, co právě vidíš. Poznej všech 88 souhvězdí a planety Sluneční soustavy, ověřené vědecké údaje i mýty, které si lidé o hvězdách vyprávějí už tisíce let. Příběhy ti aplikace umí přečíst nahlas.</p>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20dej%20mi%20v%C4%9Bd%C4%9Bt%20o%20spu%C5%A1t%C4%9Bn%C3%AD">Dej mi vědět o spuštění</a>
+                <p class="action-note">Už brzy na Google Play</p>
+            </div>
+
+            <div class="lang-de">
+                <div class="pill">Interaktiver 3D-Himmelsatlas für Android</div>
+                <h1>Entdecke den Nachthimmel<br><span class="gradient-text">über dir</span></h1>
+                <p class="hero-p">Richte dein Handy auf den Himmel und finde heraus, was du gerade siehst. Lerne alle 88 Sternbilder und die Planeten des Sonnensystems kennen – mit geprüften wissenschaftlichen Fakten und den Mythen, die sich Menschen seit Jahrtausenden über die Sterne erzählen. Die Geschichten kann dir die App vorlesen.</p>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20sag%20mir%20Bescheid%20zum%20Start">Sag mir Bescheid zum Start</a>
+                <p class="action-note">Bald bei Google Play</p>
+            </div>
+
+            <div class="lang-es">
+                <div class="pill">Atlas 3D interactivo del cielo para Android</div>
+                <h1>Descubre el cielo nocturno<br><span class="gradient-text">sobre ti</span></h1>
+                <p class="hero-p">Apunta con tu móvil al cielo y descubre qué estás viendo. Conoce las 88 constelaciones y los planetas del sistema solar, con datos científicos verificados y los mitos que la gente cuenta sobre las estrellas desde hace miles de años. La app puede leerte las historias en voz alta.</p>
+                <a class="action-button" href="mailto:astropulse.support@gmail.com?subject=AstroPulse%20%E2%80%93%20av%C3%ADsame%20del%20lanzamiento">Avísame del lanzamiento</a>
+                <p class="action-note">Muy pronto en Google Play</p>
+            </div>
+
             <div class="badges-wrapper">
-                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Plne offline</span><span class="lang-en">Fully offline</span></div>
-                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Úplne zadarmo</span><span class="lang-en">Completely free</span></div>
-                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Bez reklám</span><span class="lang-en">No ads</span></div>
+                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Plne offline</span><span class="lang-en">Fully offline</span><span class="lang-cs">Plně offline</span><span class="lang-de">Komplett offline</span><span class="lang-es">Totalmente sin conexión</span></div>
+                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Úplne zadarmo</span><span class="lang-en">Completely free</span><span class="lang-cs">Zcela zdarma</span><span class="lang-de">Völlig kostenlos</span><span class="lang-es">Completamente gratis</span></div>
+                <div class="check-badge"><span class="check-mark" aria-hidden="true">✓</span><span class="lang-sk">Bez reklám</span><span class="lang-en">No ads</span><span class="lang-cs">Bez reklam</span><span class="lang-de">Ohne Werbung</span><span class="lang-es">Sin anuncios</span></div>
             </div>
         </div>
     </main>
@@ -596,6 +634,21 @@
             <h3 class="card-h3">Interactive 3D atlas</h3>
             <p class="card-p">Smoothly rotate and zoom the whole celestial sphere. Zoom in to find star clusters, nebulae, and galaxies in their places in the sky.</p>
         </div>
+        <div class="card lang-cs">
+            <div class="card-icon" aria-hidden="true">🌌</div>
+            <h3 class="card-h3">Interaktivní 3D atlas</h3>
+            <p class="card-p">Plynule otáčej a přibližuj celou nebeskou sféru. Při přiblížení uvidíš hvězdokupy, mlhoviny a galaxie na jejich místech na obloze.</p>
+        </div>
+        <div class="card lang-de">
+            <div class="card-icon" aria-hidden="true">🌌</div>
+            <h3 class="card-h3">Interaktiver 3D-Atlas</h3>
+            <p class="card-p">Dreh und zoome die gesamte Himmelskugel ganz flüssig. Beim Heranzoomen findest du Sternhaufen, Nebel und Galaxien an ihren Plätzen am Himmel.</p>
+        </div>
+        <div class="card lang-es">
+            <div class="card-icon" aria-hidden="true">🌌</div>
+            <h3 class="card-h3">Atlas 3D interactivo</h3>
+            <p class="card-p">Gira y amplía toda la esfera celeste con fluidez. Al acercarte verás cúmulos estelares, nebulosas y galaxias en su lugar del cielo.</p>
+        </div>
 
         <div class="card lang-sk">
             <div class="card-icon" aria-hidden="true">🔊</div>
@@ -606,6 +659,21 @@
             <div class="card-icon" aria-hidden="true">🔊</div>
             <h3 class="card-h3">Stories of the sky</h3>
             <p class="card-p">Stories of the stars and constellations: the myths and what modern astronomy knows about them. The app can read them aloud to you.</p>
+        </div>
+        <div class="card lang-cs">
+            <div class="card-icon" aria-hidden="true">🔊</div>
+            <h3 class="card-h3">Příběhy hvězd</h3>
+            <p class="card-p">Příběhy hvězd a souhvězdí, mýty i to, co o nich ví dnešní astronomie. Aplikace ti je umí přečíst nahlas.</p>
+        </div>
+        <div class="card lang-de">
+            <div class="card-icon" aria-hidden="true">🔊</div>
+            <h3 class="card-h3">Geschichten der Sterne</h3>
+            <p class="card-p">Geschichten über Sterne und Sternbilder: die Mythen und das, was die heutige Astronomie über sie weiß. Die App kann sie dir vorlesen.</p>
+        </div>
+        <div class="card lang-es">
+            <div class="card-icon" aria-hidden="true">🔊</div>
+            <h3 class="card-h3">Historias de las estrellas</h3>
+            <p class="card-p">Historias de estrellas y constelaciones: los mitos y lo que la astronomía actual sabe de ellas. La app puede leértelas en voz alta.</p>
         </div>
 
         <div class="card lang-sk">
@@ -618,47 +686,74 @@
             <h3 class="card-h3">No sign-up, no data collection</h3>
             <p class="card-p">No pop-ups, no accounts, no data collection. Location and compass stay on your phone.</p>
         </div>
+        <div class="card lang-cs">
+            <div class="card-icon" aria-hidden="true">🛡️</div>
+            <h3 class="card-h3">Bez registrace, bez sběru dat</h3>
+            <p class="card-p">Žádná vyskakovací okna, žádné registrace, žádný sběr údajů. Poloha a kompas se používají jen v tvém mobilu.</p>
+        </div>
+        <div class="card lang-de">
+            <div class="card-icon" aria-hidden="true">🛡️</div>
+            <h3 class="card-h3">Ohne Anmeldung, ohne Datensammlung</h3>
+            <p class="card-p">Keine Pop-ups, keine Konten, keine Datensammlung. Standort und Kompass bleiben auf deinem Handy.</p>
+        </div>
+        <div class="card lang-es">
+            <div class="card-icon" aria-hidden="true">🛡️</div>
+            <h3 class="card-h3">Sin registro ni recopilación de datos</h3>
+            <p class="card-p">Sin ventanas emergentes, sin cuentas, sin recopilación de datos. La ubicación y la brújula se quedan en tu móvil.</p>
+        </div>
     </section>
 
     <section class="feature-list" aria-labelledby="fl-h">
-        <h2 class="section-h2" id="fl-h"><span class="lang-sk">Čo v aplikácii nájdeš</span><span class="lang-en">What's inside</span></h2>
+        <h2 class="section-h2" id="fl-h"><span class="lang-sk">Čo v aplikácii nájdeš</span><span class="lang-en">What's inside</span><span class="lang-cs">Co v aplikaci najdeš</span><span class="lang-de">Das steckt in der App</span><span class="lang-es">Qué encontrarás en la app</span></h2>
         <ul>
-            <li><strong><span class="lang-sk">Kalendár Mesiaca</span><span class="lang-en">Moon calendar</span></strong>
-                <span class="desc lang-sk">Fázy Mesiaca deň po dni.</span><span class="desc lang-en">Moon phases day by day.</span></li>
-            <li><strong><span class="lang-sk">Viditeľné teraz</span><span class="lang-en">Visible now</span></strong>
-                <span class="desc lang-sk">Čo je práve nad obzorom tam, kde stojíš.</span><span class="desc lang-en">What's above the horizon where you are right now.</span></li>
-            <li><strong><span class="lang-sk">Cestovanie v čase</span><span class="lang-en">Time travel</span></strong>
-                <span class="desc lang-sk">Pozri sa, ako vyzerá obloha v inom čase.</span><span class="desc lang-en">See how the sky looks at another time.</span></li>
-            <li><strong><span class="lang-sk">Červený nočný režim</span><span class="lang-en">Red night mode</span></strong>
-                <span class="desc lang-sk">Oči si zachovajú prispôsobenie tme.</span><span class="desc lang-en">Keeps your eyes adjusted to the dark.</span></li>
-            <li><strong><span class="lang-sk">Zápisník pozorovaní</span><span class="lang-en">Observation log</span></strong>
-                <span class="desc lang-sk">Zaznamenaj si, čo sa ti už na oblohe podarilo nájsť.</span><span class="desc lang-en">Mark what you've already seen in the sky.</span></li>
-            <li><strong><span class="lang-sk">Na výšku aj na šírku</span><span class="lang-en">Portrait and landscape</span></strong>
-                <span class="desc lang-sk">Drž telefón, ako ti to vyhovuje.</span><span class="desc lang-en">Hold your phone whichever way suits you.</span></li>
+            <li><strong><span class="lang-sk">Kalendár Mesiaca</span><span class="lang-en">Moon calendar</span><span class="lang-cs">Kalendář Měsíce</span><span class="lang-de">Mondkalender</span><span class="lang-es">Calendario lunar</span></strong>
+                <span class="desc lang-sk">Fázy Mesiaca deň po dni.</span><span class="desc lang-en">Moon phases day by day.</span><span class="desc lang-cs">Fáze Měsíce den po dni.</span><span class="desc lang-de">Mondphasen Tag für Tag.</span><span class="desc lang-es">Las fases de la Luna día a día.</span></li>
+            <li><strong><span class="lang-sk">Viditeľné teraz</span><span class="lang-en">Visible now</span><span class="lang-cs">Viditelné teď</span><span class="lang-de">Jetzt sichtbar</span><span class="lang-es">Visible ahora</span></strong>
+                <span class="desc lang-sk">Čo je práve nad obzorom tam, kde stojíš.</span><span class="desc lang-en">What's above the horizon where you are right now.</span><span class="desc lang-cs">Co je právě nad obzorem tam, kde stojíš.</span><span class="desc lang-de">Was gerade über dem Horizont steht, dort wo du bist.</span><span class="desc lang-es">Lo que está sobre el horizonte justo donde estás.</span></li>
+            <li><strong><span class="lang-sk">Cestovanie v čase</span><span class="lang-en">Time travel</span><span class="lang-cs">Cestování v čase</span><span class="lang-de">Zeitreise</span><span class="lang-es">Viaje en el tiempo</span></strong>
+                <span class="desc lang-sk">Pozri sa, ako vyzerá obloha v inom čase.</span><span class="desc lang-en">See how the sky looks at another time.</span><span class="desc lang-cs">Podívej se, jak vypadá obloha v jiném čase.</span><span class="desc lang-de">Sieh dir an, wie der Himmel zu einer anderen Zeit aussieht.</span><span class="desc lang-es">Mira cómo se ve el cielo en otro momento.</span></li>
+            <li><strong><span class="lang-sk">Červený nočný režim</span><span class="lang-en">Red night mode</span><span class="lang-cs">Červený noční režim</span><span class="lang-de">Roter Nachtmodus</span><span class="lang-es">Modo nocturno rojo</span></strong>
+                <span class="desc lang-sk">Oči si zachovajú prispôsobenie tme.</span><span class="desc lang-en">Keeps your eyes adjusted to the dark.</span><span class="desc lang-cs">Oči si zachovají přizpůsobení tmě.</span><span class="desc lang-de">Deine Augen bleiben an die Dunkelheit gewöhnt.</span><span class="desc lang-es">Tus ojos siguen adaptados a la oscuridad.</span></li>
+            <li><strong><span class="lang-sk">Zápisník pozorovaní</span><span class="lang-en">Observation log</span><span class="lang-cs">Deník pozorování</span><span class="lang-de">Beobachtungstagebuch</span><span class="lang-es">Diario de observación</span></strong>
+                <span class="desc lang-sk">Zaznamenaj si, čo sa ti už na oblohe podarilo nájsť.</span><span class="desc lang-en">Mark what you've already seen in the sky.</span><span class="desc lang-cs">Zaznamenej si, co se ti už na obloze podařilo najít.</span><span class="desc lang-de">Halte fest, was du am Himmel schon gefunden hast.</span><span class="desc lang-es">Anota lo que ya has encontrado en el cielo.</span></li>
+            <li><strong><span class="lang-sk">Na výšku aj na šírku</span><span class="lang-en">Portrait and landscape</span><span class="lang-cs">Na výšku i na šířku</span><span class="lang-de">Hoch- und Querformat</span><span class="lang-es">En vertical y en horizontal</span></strong>
+                <span class="desc lang-sk">Drž telefón, ako ti to vyhovuje.</span><span class="desc lang-en">Hold your phone whichever way suits you.</span><span class="desc lang-cs">Drž telefon, jak ti to vyhovuje.</span><span class="desc lang-de">Halte dein Handy so, wie es dir passt.</span><span class="desc lang-es">Sujeta el móvil como te resulte más cómodo.</span></li>
         </ul>
     </section>
 
     <section class="shots" id="shots" aria-labelledby="sh-h">
-        <h2 class="section-h2" id="sh-h"><span class="lang-sk">Ako to vyzerá</span><span class="lang-en">Screenshots</span></h2>
-        <p class="shots-hint"><span class="lang-sk">Ťukni alebo klikni na obrázok a zväčšíš ho.</span><span class="lang-en">Tap or click a screenshot to enlarge it.</span></p>
+        <h2 class="section-h2" id="sh-h"><span class="lang-sk">Ako to vyzerá</span><span class="lang-en">Screenshots</span><span class="lang-cs">Jak to vypadá</span><span class="lang-de">So sieht es aus</span><span class="lang-es">Así se ve</span></h2>
+        <p class="shots-hint"><span class="lang-sk">Ťukni alebo klikni na obrázok a zväčšíš ho.</span><span class="lang-en">Tap or click a screenshot to enlarge it.</span><span class="lang-cs">Ťukni nebo klikni na obrázek a zvětšíš ho.</span><span class="lang-de">Tippe oder klicke auf ein Bild, um es zu vergrößern.</span><span class="lang-es">Toca o haz clic en una imagen para ampliarla.</span></p>
         <div class="shots-wrap">
             <button class="shots-nav prev" type="button" aria-label="Predchádzajúce / Previous">‹</button>
             <div class="shots-row" id="shots-row">
             <button class="shot" type="button" data-i="0">
                 <img class="lang-sk" src="screenshots/sk-1-suhvezdia.webp" width="720" height="1600" loading="lazy" alt="Namier telefón a uvidíš súhvezdia">
                 <img class="lang-en" src="screenshots/en-1-constellations.webp" width="720" height="1600" loading="lazy" alt="Aim your phone, see the constellations">
+                <img class="lang-cs" src="screenshots/cs-1-souhvezdi.webp" width="720" height="1600" loading="lazy" alt="Namiř telefon a uvidíš souhvězdí">
+                <img class="lang-de" src="screenshots/de-1-sternbilder.webp" width="720" height="1600" loading="lazy" alt="Richte dein Smartphone aus und sieh die Sternbilder">
+                <img class="lang-es" src="screenshots/es-1-constelaciones.webp" width="720" height="1600" loading="lazy" alt="Apunta con tu teléfono y verás las constelaciones">
             </button>
             <button class="shot" type="button" data-i="1">
                 <img class="lang-sk" src="screenshots/sk-3-pribehy.webp" width="720" height="1600" loading="lazy" alt="Príbehy hviezd a súhvezdí">
                 <img class="lang-en" src="screenshots/en-3-stories.webp" width="720" height="1600" loading="lazy" alt="Stories of stars and constellations">
+                <img class="lang-cs" src="screenshots/cs-3-pribehy.webp" width="720" height="1600" loading="lazy" alt="Příběhy hvězd a souhvězdí">
+                <img class="lang-de" src="screenshots/de-3-geschichten.webp" width="720" height="1600" loading="lazy" alt="Die Geschichten der Sterne und Sternbilder">
+                <img class="lang-es" src="screenshots/es-3-historias.webp" width="720" height="1600" loading="lazy" alt="Historias de las estrellas y constelaciones">
             </button>
             <button class="shot" type="button" data-i="2">
                 <img class="lang-sk" src="screenshots/sk-6-slnecna-sustava.webp" width="720" height="1600" loading="lazy" alt="Slnečná sústava s fotkami z NASA">
                 <img class="lang-en" src="screenshots/en-6-solar-system.webp" width="720" height="1600" loading="lazy" alt="The Solar System with NASA photos">
+                <img class="lang-cs" src="screenshots/cs-6-slunecni-soustava.webp" width="720" height="1600" loading="lazy" alt="Sluneční soustava s fotkami z NASA">
+                <img class="lang-de" src="screenshots/de-6-sonnensystem.webp" width="720" height="1600" loading="lazy" alt="Das Sonnensystem mit NASA-Fotos">
+                <img class="lang-es" src="screenshots/es-6-sistema-solar.webp" width="720" height="1600" loading="lazy" alt="El sistema solar con fotos de la NASA">
             </button>
             <button class="shot" type="button" data-i="3">
                 <img class="lang-sk" src="screenshots/sk-7-nocny-rezim.webp" width="720" height="1600" loading="lazy" alt="Červený nočný režim – šetrí tvoje oči">
                 <img class="lang-en" src="screenshots/en-7-night-mode.webp" width="720" height="1600" loading="lazy" alt="Red night mode – easy on your eyes">
+                <img class="lang-cs" src="screenshots/cs-7-nocni-rezim.webp" width="720" height="1600" loading="lazy" alt="Červený noční režim – šetří tvé oči">
+                <img class="lang-de" src="screenshots/de-7-nachtmodus.webp" width="720" height="1600" loading="lazy" alt="Roter Nachtmodus – schont deine Augen">
+                <img class="lang-es" src="screenshots/es-7-modo-nocturno.webp" width="720" height="1600" loading="lazy" alt="Modo nocturno rojo: protege tus ojos">
             </button>
             </div>
             <button class="shots-nav next" type="button" aria-label="Ďalšie / Next">›</button>
@@ -685,18 +780,36 @@
             <p>That wish, and many nights of programming, led to AstroPulse. I didn't want another textbook on my phone. I wanted a quiet companion: an app that works even where there's no signal, needs no account, and never interrupts. You step outside, point your phone, and the sky starts telling you its stories.</p>
             <p>AstroPulse is an independent project by one developer, and it isn't finished yet. I want to add more stories about the stars and the deep sky, and illustrations of the constellations. If something is missing, or something delighted you, <a href="mailto:astropulse.support@gmail.com">write to me</a>. The best ideas come from your messages.</p>
         </div>
+        <div class="lang-cs">
+            <h2>Příběh za projektem</h2>
+            <p>Celý projekt vznikl z jednoho prostého okamžiku. Vždycky, když jsem se díval na noční oblohu, fascinovala mě její hloubka. Zároveň mě trápilo, že hvězdy a souhvězdí nad sebou nedokážu pojmenovat. Chtěl jsem večer vyjít ven a přesně vědět, co mi právě svítí nad hlavou.</p>
+            <p>Z té touhy po poznání nakonec po nocích plných programování vznikl AstroPulse. Nechtěl jsem další učebnici v mobilu, ale klidného společníka: aplikaci, která funguje i tam, kde není signál, nevyžaduje účet a neruší. Vyjdeš ven, namíříš telefon a obloha ti začne vyprávět své příběhy.</p>
+            <p>AstroPulse je nezávislý projekt jednoho vývojáře a ještě není hotový. Chci přidávat další příběhy hvězd a hlubokého vesmíru a ilustrace souhvězdí. Pokud ti něco chybí nebo tě něco nadchlo, <a href="mailto:astropulse.support@gmail.com">napiš mi</a>. Nejlepší nápady vznikají právě z tvých zpráv.</p>
+        </div>
+        <div class="lang-de">
+            <h2>Die Geschichte hinter AstroPulse</h2>
+            <p>Das ganze Projekt begann mit einem einfachen Moment. Immer wenn ich in den Nachthimmel geschaut habe, hat mich seine Tiefe fasziniert. Gleichzeitig hat es mich gestört, dass ich die Sterne und Sternbilder über mir nicht benennen konnte. Ich wollte abends nach draußen gehen und genau wissen, was gerade über meinem Kopf leuchtet.</p>
+            <p>Aus diesem Wunsch und vielen Nächten voller Programmieren ist schließlich AstroPulse entstanden. Ich wollte kein weiteres Lehrbuch auf dem Handy, sondern einen ruhigen Begleiter: eine App, die auch ohne Empfang funktioniert, kein Konto braucht und nicht stört. Du gehst nach draußen, richtest dein Handy nach oben, und der Himmel beginnt, dir seine Geschichten zu erzählen.</p>
+            <p>AstroPulse ist ein unabhängiges Projekt eines einzelnen Entwicklers und noch nicht fertig. Ich möchte weitere Geschichten über Sterne und den tiefen Weltraum sowie Illustrationen der Sternbilder hinzufügen. Wenn dir etwas fehlt oder dich etwas begeistert hat, <a href="mailto:astropulse.support@gmail.com">schreib mir</a>. Die besten Ideen entstehen aus deinen Nachrichten.</p>
+        </div>
+        <div class="lang-es">
+            <h2>La historia detrás de AstroPulse</h2>
+            <p>Todo el proyecto nació de un momento sencillo. Cada vez que miraba el cielo nocturno, me fascinaba su profundidad. Pero también me molestaba no saber nombrar las estrellas y constelaciones que tenía encima. Quería salir por la noche y saber exactamente qué brillaba sobre mi cabeza.</p>
+            <p>De ese deseo, y de muchas noches programando, nació AstroPulse. No quería otro libro de texto en el móvil, sino un compañero tranquilo: una app que funciona incluso sin cobertura, no pide ninguna cuenta y no molesta. Sales, apuntas con el teléfono y el cielo empieza a contarte sus historias.</p>
+            <p>AstroPulse es un proyecto independiente de un solo desarrollador y aún no está terminado. Quiero añadir más historias sobre las estrellas y el cielo profundo, e ilustraciones de las constelaciones. Si echas algo en falta o algo te ha encantado, <a href="mailto:astropulse.support@gmail.com">escríbeme</a>. Las mejores ideas nacen de tus mensajes.</p>
+        </div>
     </section>
 
     <footer>
         <div>
             <span class="lang-sk">© 2026 AstroPulse (Slovensko). Všetky práva vyhradené.</span>
-            <span class="lang-en">© 2026 AstroPulse (Slovakia). All rights reserved.</span>
+            <span class="lang-en">© 2026 AstroPulse (Slovakia). All rights reserved.</span><span class="lang-cs">© 2026 AstroPulse (Slovensko). Všechna práva vyhrazena.</span><span class="lang-de">© 2026 AstroPulse (Slowakei). Alle Rechte vorbehalten.</span><span class="lang-es">© 2026 AstroPulse (Eslovaquia). Todos los derechos reservados.</span>
             <br>
             <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>
         </div>
         <div>
             <a href="privacy.html" class="lang-sk">Zásady ochrany osobných údajov</a>
-            <a href="privacy.html" class="lang-en">Privacy policy</a>
+            <a href="privacy.html" class="lang-en">Privacy policy</a><a href="privacy.html" class="lang-cs">Zásady ochrany osobních údajů</a><a href="privacy.html" class="lang-de">Datenschutzerklärung</a><a href="privacy.html" class="lang-es">Política de privacidad</a>
         </div>
     </footer>
 
@@ -743,8 +856,8 @@
             let cur = 0, opener = null;
             function show(i) {
                 cur = (i + shots.length) % shots.length;
-                const lang = document.documentElement.getAttribute('data-lang') === 'en' ? 'en' : 'sk';
-                const src = shots[cur].querySelector('img.lang-' + lang);
+                const lang = document.documentElement.getAttribute('data-lang') || 'sk';
+                const src = shots[cur].querySelector('img.lang-' + lang) || shots[cur].querySelector('img.lang-en');
                 lbImg.src = src.getAttribute('src'); lbImg.alt = src.alt;
             }
             function open(i) { opener = document.activeElement; show(i); lb.hidden = false; document.body.style.overflow = 'hidden'; lb.querySelector('.lb-close').focus(); }
@@ -772,7 +885,10 @@
 
         const titles = {
             sk: 'AstroPulse – Objav nočnú oblohu',
-            en: 'AstroPulse – Discover the Night Sky'
+            cs: 'AstroPulse – Objev noční oblohu',
+            en: 'AstroPulse – Discover the Night Sky',
+            de: 'AstroPulse – Entdecke den Nachthimmel',
+            es: 'AstroPulse – Descubre el cielo nocturno'
         };
 
         function switchLang(lang) {
@@ -781,8 +897,9 @@
             document.title = titles[lang];
             var hi = document.querySelector('.hero-img');
             if (hi) hi.alt = hi.getAttribute('data-alt-' + lang);
-            document.getElementById('btn-sk').setAttribute('aria-pressed', lang === 'sk');
-            document.getElementById('btn-en').setAttribute('aria-pressed', lang === 'en');
+            ['sk', 'cs', 'en', 'de', 'es'].forEach(function (l) {
+                document.getElementById('btn-' + l).setAttribute('aria-pressed', lang === l);
+            });
             try { localStorage.setItem('astropulse-lang', lang); } catch (e) {}
         }
 
