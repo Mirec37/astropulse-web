@@ -22,10 +22,19 @@
         html:not([data-lang="de"]) .lang-de,
         html:not([data-lang="es"]) .lang-es,
         html:not([data-lang="fr"]) .lang-fr,
-        html:not([data-lang="pl"]) .lang-pl { display: none !important; }
+        html:not([data-lang="pl"]) .lang-pl,
+        html:not([data-lang="it"]) .lang-it,
+        html:not([data-lang="pt-BR"]) .lang-pt-BR,
+        html:not([data-lang="pt-PT"]) .lang-pt-PT,
+        html:not([data-lang="es-419"]) .lang-es-419 { display: none !important; }
         /* FR a PL zatiaľ nemajú vlastné screenshoty – ukážu sa anglické */
         html[data-lang="fr"] .shot img.lang-en,
-        html[data-lang="pl"] .shot img.lang-en { display: block !important; }
+        html[data-lang="pl"] .shot img.lang-en,
+        html[data-lang="it"] .shot img.lang-en,
+        html[data-lang="pt-BR"] .shot img.lang-en,
+        html[data-lang="pt-PT"] .shot img.lang-en { display: block !important; }
+        /* Latinská Amerika: španielske screenshoty */
+        html[data-lang="es-419"] .shot img.lang-es { display: block !important; }
         /* Rozbaľovací výber jazyka na mobile */
         .lang-select {
             display: none; appearance: none; -webkit-appearance: none;
@@ -34,6 +43,7 @@
             padding: 7px 30px 7px 12px; font: 600 14px system-ui, sans-serif; cursor: pointer;
         }
         .lang-select option { background: #030712; color: #f3f4f6; }
+        @media (max-width: 420px) { .lang-select { font-size: 13px; padding: 6px 26px 6px 10px; background-position: right 9px center; } }
         .lang-switch { display: none !important; }
         .lang-select { display: block; }
 
@@ -67,11 +77,13 @@
             var lang = 'sk';
             try {
                 var saved = localStorage.getItem('astropulse-lang');
-                var ok = ['sk', 'cs', 'en', 'de', 'es', 'fr', 'pl'];
+                var ok = ['sk', 'cs', 'en', 'de', 'es', 'es-419', 'fr', 'it', 'pl', 'pt-BR', 'pt-PT'];
                 if (ok.indexOf(saved) >= 0) lang = saved;
                 else {
-                    var nav = (navigator.language || 'sk').toLowerCase().slice(0, 2);
-                    lang = ok.indexOf(nav) >= 0 ? nav : 'en';
+                    var full = (navigator.language || 'sk').toLowerCase(), nav = full.slice(0, 2);
+                    if (nav === 'pt') lang = (full === 'pt-pt') ? 'pt-PT' : 'pt-BR';
+                    else if (nav === 'es') lang = (full === 'es' || full === 'es-es') ? 'es' : 'es-419';
+                    else lang = ok.indexOf(nav) >= 0 ? nav : 'en';
                 }
             } catch (e) {}
             document.documentElement.setAttribute('data-lang', lang);
@@ -93,7 +105,7 @@
             <button id="btn-pl" onclick="switchLang('pl')" class="lang-btn" aria-pressed="false" lang="pl" title="Polski">PL</button>
         </div>
         <select id="lang-select" class="lang-select" aria-label="Jazyk / Language" onchange="switchLang(this.value)">
-            <option value="sk">Slovenčina</option><option value="cs">Čeština</option><option value="en">English</option><option value="de">Deutsch</option><option value="es">Español</option><option value="fr">Français</option><option value="pl">Polski</option>
+            <option value="sk">Slovenčina</option><option value="cs">Čeština</option><option value="en">English</option><option value="de">Deutsch</option><option value="es">Español (España)</option><option value="es-419">Español (LatAm)</option><option value="fr">Français</option><option value="it">Italiano</option><option value="pl">Polski</option><option value="pt-BR">Português (Brasil)</option><option value="pt-PT">Português (Portugal)</option>
         </select>
     </header>
 
@@ -291,6 +303,43 @@
         <h2>Cambios</h2>
         <p>Si esta política cambia, publicaremos la versión actualizada en esta página con una nueva fecha de entrada en vigor.</p>
     </main>
+    <main class="lang-es-419">
+        <h1>Política de privacidad</h1>
+        <p class="updated">Vigente desde: 11 de octubre de 2026</p>
+
+        <p>Esta política explica cómo la app móvil AstroPulse para Android («la app») trata tus datos. En resumen: la app no recopila, no sube a ningún servidor, no transmite ni comparte ningún dato personal.</p>
+
+        <h2>Quién gestiona la app</h2>
+        <p>La app la gestiona AstroPulse (Eslovaquia). Contacto: <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Datos que la app no recopila</h2>
+        <p>La app no requiere registro ni inicio de sesión y no contiene anuncios ni herramientas de análisis o seguimiento. No recopila nombres, direcciones de correo electrónico, identificadores del dispositivo ni estadísticas sobre cómo la usas.</p>
+
+        <h2>Ubicación</h2>
+        <p>Para mostrarte el cielo tal como lo ves desde donde estás, la app pide permiso para acceder a la ubicación del dispositivo. La ubicación se usa únicamente para calcular la posición de las estrellas, los planetas y otros objetos del cielo. Se procesa solo en tu dispositivo, nunca se envía a ningún sitio ni se comparte con terceros. La app guarda en el dispositivo solo tu última ubicación conocida (o un lugar que elijas manualmente) para tenerla disponible al instante la próxima vez. No guarda un historial de ubicaciones.</p>
+        <p>Puedes denegar o retirar este permiso en cualquier momento en los configuración de Android. En ese caso, la app puede mostrar el cielo con menos precisión.</p>
+
+        <h2>Brújula y sensores de movimiento</h2>
+        <p>La app usa la brújula (magnetómetro) y los sensores de movimiento del dispositivo (como el acelerómetro y el giroscopio) para que la vista del cielo siga la dirección en la que apuntas con el teléfono. Los datos de los sensores se procesan solo en tiempo real en tu dispositivo; no se guardan ni se transmiten.</p>
+
+        <h2>Datos guardados en el dispositivo</h2>
+        <p>La app guarda en tu dispositivo tu configuración (como el idioma o el modo de visualización), tu última ubicación y tu diario de observación personal (las estrellas, constelaciones y objetos que marques en él). Estos datos permanecen solo en tu teléfono y se eliminan al desinstalar la app o borrar sus datos.</p>
+
+        <h2>Capturas del cielo</h2>
+        <p>Si guardas o compartes una captura del cielo, se queda en tu galería o en la app con la que decidas compartirla. La app no la envía a ningún sitio por su cuenta.</p>
+
+        <h2>Niños</h2>
+        <p>La app no recopila datos personales de nadie, tampoco de niños.</p>
+
+        <h2>Google Play</h2>
+        <p>La app se distribuye a través de Google Play. Los datos relacionados con la descarga y la instalación (como tu cuenta de Google) los trata Google según su propia política de privacidad, que no controlamos.</p>
+
+        <h2>Contacto</h2>
+        <p>El botón de comentarios de la app abre tu aplicación de correo, y tú decides si envías el mensaje. Si nos escribes un correo, usaremos tu dirección y tu mensaje solo para responderte. Envía tus preguntas sobre esta política a <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Cambios</h2>
+        <p>Si esta política cambia, publicaremos la versión actualizada en esta página con una nueva fecha de entrada en vigor.</p>
+    </main>
 
     <!-- ===================== FRANÇAIS ===================== -->
     <main class="lang-fr">
@@ -370,6 +419,123 @@
         <p>Jeśli ta polityka się zmieni, zaktualizowaną wersję opublikujemy na tej stronie wraz z nową datą obowiązywania.</p>
     </main>
 
+    <!-- ===================== ITALIANO ===================== -->
+    <main class="lang-it">
+        <h1>Informativa sulla privacy</h1>
+        <p class="updated">In vigore dall'11 ottobre 2026</p>
+
+        <p>Questa informativa spiega come l'app mobile AstroPulse per Android («l'app») tratta i tuoi dati. In breve: l'app non raccoglie, non salva su alcun server, non trasmette e non condivide alcun dato personale.</p>
+
+        <h2>Chi gestisce l'app</h2>
+        <p>L'app è gestita da AstroPulse (Slovacchia). Contatto: <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Dati che l'app non raccoglie</h2>
+        <p>L'app non richiede registrazione né accesso e non contiene pubblicità né strumenti di analisi o tracciamento. Non raccoglie nomi, indirizzi e-mail, identificativi del dispositivo né statistiche su come la usi.</p>
+
+        <h2>Posizione</h2>
+        <p>Per mostrarti il cielo così come lo vedi dal luogo in cui ti trovi, l'app chiede l'autorizzazione ad accedere alla posizione del dispositivo. La posizione serve esclusivamente a calcolare la posizione di stelle, pianeti e altri oggetti del cielo. Viene elaborata solo localmente sul tuo dispositivo, non viene mai inviata altrove né condivisa con terzi. L'app salva sul dispositivo solo la tua ultima posizione nota (o un luogo scelto manualmente) per averla subito disponibile la volta successiva. Non conserva una cronologia delle posizioni.</p>
+        <p>Puoi negare o revocare questa autorizzazione in qualsiasi momento nelle impostazioni di Android. In tal caso l'app potrebbe mostrare il cielo con minore precisione.</p>
+
+        <h2>Bussola e sensori di movimento</h2>
+        <p>L'app usa la bussola (magnetometro) e i sensori di movimento del dispositivo (ad esempio accelerometro e giroscopio) affinché la vista del cielo segua la direzione in cui punti il telefono. I dati dei sensori vengono elaborati solo in tempo reale sul tuo dispositivo; non vengono salvati né trasmessi.</p>
+
+        <h2>Dati salvati sul dispositivo</h2>
+        <p>L'app salva sul tuo dispositivo le impostazioni (come la lingua o la modalità di visualizzazione), l'ultima posizione e il tuo diario di osservazione personale (le stelle, le costellazioni e gli oggetti che vi segni). Questi dati restano solo sul tuo telefono e vengono eliminati quando disinstalli l'app o ne cancelli i dati.</p>
+
+        <h2>Immagini del cielo</h2>
+        <p>Se salvi o condividi un'immagine del cielo, questa resta nella tua galleria o nell'app con cui scegli di condividerla. L'app non la invia da nessuna parte di sua iniziativa.</p>
+
+        <h2>Bambini</h2>
+        <p>L'app non raccoglie dati personali da nessuno, quindi nemmeno dai bambini.</p>
+
+        <h2>Google Play</h2>
+        <p>L'app è distribuita tramite Google Play. I dati legati al download e all'installazione (ad esempio il tuo account Google) sono trattati da Google secondo la propria informativa sulla privacy, sulla quale non abbiamo alcun controllo.</p>
+
+        <h2>Contatti</h2>
+        <p>Il pulsante per il feedback nell'app apre la tua app di posta, e sei tu a decidere se inviare il messaggio. Se ci scrivi un'e-mail, useremo il tuo indirizzo e il tuo messaggio solo per risponderti. Invia le domande su questa informativa a <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Modifiche</h2>
+        <p>Se questa informativa cambia, pubblicheremo la versione aggiornata su questa pagina con una nuova data di entrata in vigore.</p>
+    </main>
+
+    <!-- ===================== PORTUGUÊS (BRASIL) ===================== -->
+    <main class="lang-pt-BR">
+        <h1>Política de privacidade</h1>
+        <p class="updated">Em vigor desde: 11 de outubro de 2026</p>
+
+        <p>Esta política explica como o app AstroPulse para Android (“o app”) trata os seus dados. Resumindo: o app não coleta, não armazena em nenhum servidor, não transmite nem compartilha nenhum dado pessoal.</p>
+
+        <h2>Quem mantém o app</h2>
+        <p>O app é mantido por AstroPulse (Eslováquia). Contato: <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Dados que o app não coleta</h2>
+        <p>O app não exige cadastro nem login e não contém anúncios nem ferramentas de análise ou rastreamento. Não coleta nomes, endereços de e-mail, identificadores do dispositivo nem estatísticas sobre como você o usa.</p>
+
+        <h2>Localização</h2>
+        <p>Para mostrar o céu como você o vê de onde está, o app pede permissão para acessar a localização do dispositivo. A localização é usada exclusivamente para calcular a posição das estrelas, dos planetas e de outros objetos do céu. Ela é processada apenas no seu dispositivo, nunca é enviada a lugar nenhum e não é compartilhada com terceiros. O app salva no dispositivo apenas a sua última localização conhecida (ou um lugar que você escolher manualmente) para tê-la disponível na próxima vez. Ele não guarda histórico de localização.</p>
+        <p>Você pode negar ou revogar essa permissão a qualquer momento nas configurações do Android. Nesse caso, o app pode mostrar o céu com menos precisão.</p>
+
+        <h2>Bússola e sensores de movimento</h2>
+        <p>O app usa a bússola (magnetômetro) e os sensores de movimento do dispositivo (como o acelerômetro e o giroscópio) para que a visão do céu acompanhe a direção para onde você aponta o celular. Os dados dos sensores são processados apenas em tempo real no seu dispositivo; não são salvos nem transmitidos.</p>
+
+        <h2>Dados salvos no dispositivo</h2>
+        <p>O app salva no seu dispositivo as suas configurações (como o idioma ou o modo de exibição), a sua última localização e o seu diário de observação pessoal (as estrelas, constelações e objetos que você marcar nele). Esses dados ficam apenas no seu celular e são apagados quando você desinstala o app ou limpa os dados dele.</p>
+
+        <h2>Capturas do céu</h2>
+        <p>Se você salvar ou compartilhar uma captura do céu, ela fica na sua galeria ou no app com o qual você escolher compartilhá-la. O app não a envia para lugar nenhum por conta própria.</p>
+
+        <h2>Crianças</h2>
+        <p>O app não coleta dados pessoais de ninguém, portanto também não de crianças.</p>
+
+        <h2>Google Play</h2>
+        <p>O app é distribuído pelo Google Play. Os dados ligados ao download e à instalação (como a sua conta Google) são tratados pelo Google de acordo com a própria política de privacidade, sobre a qual não temos controle.</p>
+
+        <h2>Contato</h2>
+        <p>O botão de feedback no app abre o seu aplicativo de e-mail, e é você quem decide se envia a mensagem. Se você nos escrever um e-mail, usaremos o seu endereço e a sua mensagem apenas para responder. Envie dúvidas sobre esta política para <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Alterações</h2>
+        <p>Se esta política mudar, publicaremos a versão atualizada nesta página com uma nova data de vigência.</p>
+    </main>
+
+    <!-- ===================== PORTUGUÊS (PORTUGAL) ===================== -->
+    <main class="lang-pt-PT">
+        <h1>Política de privacidade</h1>
+        <p class="updated">Em vigor desde: 11 de outubro de 2026</p>
+
+        <p>Esta política explica como a aplicação móvel AstroPulse para Android (“a app”) trata os teus dados. Em resumo: a app não recolhe, não guarda em nenhum servidor, não transmite nem partilha quaisquer dados pessoais.</p>
+
+        <h2>Quem gere a app</h2>
+        <p>A app é gerida por AstroPulse (Eslováquia). Contacto: <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Dados que a app não recolhe</h2>
+        <p>A app não exige registo nem início de sessão e não contém anúncios nem ferramentas de análise ou rastreio. Não recolhe nomes, endereços de e-mail, identificadores do dispositivo nem estatísticas sobre a forma como a utilizas.</p>
+
+        <h2>Localização</h2>
+        <p>Para te mostrar o céu tal como o vês do sítio onde estás, a app pede autorização para aceder à localização do dispositivo. A localização é utilizada exclusivamente para calcular a posição das estrelas, dos planetas e de outros objetos do céu. É processada apenas localmente no teu dispositivo, nunca é enviada para lado nenhum e não é partilhada com terceiros. A app guarda no dispositivo apenas a tua última localização conhecida (ou um local que escolhas manualmente) para a ter logo disponível da próxima vez. Não guarda um histórico de localizações.</p>
+        <p>Podes recusar ou retirar esta autorização a qualquer momento nas definições do Android. Nesse caso, a app pode mostrar o céu com menos precisão.</p>
+
+        <h2>Bússola e sensores de movimento</h2>
+        <p>A app utiliza a bússola (magnetómetro) e os sensores de movimento do dispositivo (por exemplo, o acelerómetro e o giroscópio) para que a vista do céu acompanhe a direção para onde apontas o telemóvel. Os dados dos sensores são processados apenas em tempo real no teu dispositivo; não são guardados nem transmitidos.</p>
+
+        <h2>Dados guardados no dispositivo</h2>
+        <p>A app guarda no teu dispositivo as tuas definições (como o idioma ou o modo de visualização), a tua última localização e o teu diário de observação pessoal (as estrelas, constelações e objetos que nele marcares). Estes dados ficam apenas no teu telemóvel e são eliminados quando desinstalas a app ou apagas os dados dela.</p>
+
+        <h2>Capturas do céu</h2>
+        <p>Se guardares ou partilhares uma captura do céu, esta fica na tua galeria ou na app com que escolheres partilhá-la. A app não a envia para lado nenhum por iniciativa própria.</p>
+
+        <h2>Crianças</h2>
+        <p>A app não recolhe dados pessoais de ninguém, portanto também não de crianças.</p>
+
+        <h2>Google Play</h2>
+        <p>A app é distribuída através do Google Play. Os dados relacionados com a transferência e a instalação (como a tua conta Google) são tratados pela Google de acordo com a sua própria política de privacidade, sobre a qual não temos controlo.</p>
+
+        <h2>Contacto</h2>
+        <p>O botão de feedback na app abre a tua aplicação de e-mail, e és tu quem decide se envia a mensagem. Se nos escreveres um e-mail, utilizamos o teu endereço e a tua mensagem apenas para te responder. Envia as tuas questões sobre esta política para <a href="mailto:astropulse.support@gmail.com">astropulse.support@gmail.com</a>.</p>
+
+        <h2>Alterações</h2>
+        <p>Se esta política mudar, publicaremos a versão atualizada nesta página com uma nova data de entrada em vigor.</p>
+    </main>
+
     <footer>
         <span class="lang-sk">© 2026 AstroPulse · <a href="index.html">Späť na hlavnú stránku</a></span>
         <span class="lang-en">© 2026 AstroPulse · <a href="index.html">Back to home</a></span>
@@ -378,6 +544,10 @@
         <span class="lang-es">© 2026 AstroPulse · <a href="index.html">Volver a la página principal</a></span>
         <span class="lang-fr">© 2026 AstroPulse · <a href="index.html">Retour à la page d'accueil</a></span>
         <span class="lang-pl">© 2026 AstroPulse · <a href="index.html">Powrót do strony głównej</a></span>
+        <span class="lang-it">© 2026 AstroPulse · <a href="index.html">Torna alla pagina principale</a></span>
+        <span class="lang-pt-BR">© 2026 AstroPulse · <a href="index.html">Voltar para a página inicial</a></span>
+        <span class="lang-pt-PT">© 2026 AstroPulse · <a href="index.html">Voltar à página inicial</a></span>
+        <span class="lang-es-419">© 2026 AstroPulse · <a href="index.html">Volver a la página principal</a></span>
     </footer>
 </div>
 
@@ -389,14 +559,18 @@
         de: 'AstroPulse – Datenschutzerklärung',
         es: 'AstroPulse – Política de privacidad',
         fr: 'AstroPulse – Politique de confidentialité',
-        pl: 'AstroPulse – Polityka prywatności'
+        pl: 'AstroPulse – Polityka prywatności',
+        it: 'AstroPulse – Informativa sulla privacy',
+        'pt-BR': 'AstroPulse – Política de privacidade',
+        'pt-PT': 'AstroPulse – Política de privacidade',
+        'es-419': 'AstroPulse – Política de privacidad'
     };
     function switchLang(lang) {
         document.documentElement.setAttribute('data-lang', lang);
         document.documentElement.lang = lang;
         document.title = titles[lang];
-        ['sk', 'cs', 'en', 'de', 'es', 'fr', 'pl'].forEach(function (l) {
-            document.getElementById('btn-' + l).setAttribute('aria-pressed', lang === l);
+        ['sk', 'cs', 'en', 'de', 'es', 'es-419', 'fr', 'it', 'pl', 'pt-BR', 'pt-PT'].forEach(function (l) {
+            var bt = document.getElementById('btn-' + l); if (bt) bt.setAttribute('aria-pressed', lang === l);
         });
             var sel = document.getElementById('lang-select'); if (sel) sel.value = lang;
         try { localStorage.setItem('astropulse-lang', lang); } catch (e) {}
